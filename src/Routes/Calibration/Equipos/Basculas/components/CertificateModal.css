@@ -1,0 +1,117 @@
+.certificate-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 0; /* Sin padding en el overlay */
+}
+
+.certificate-modal-content {
+  background: rgba(11, 18, 36, 0.877);
+  border-radius: 8px;
+  width: 95%;
+  height: 95vh; /* Usa 95% del viewport */
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-out;
+  overflow: hidden; /* Previene overflow */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid #e0e0e0;
+  flex-shrink: 0; /* No se comprime */
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #fcfcfc;
+}
+
+.modal-actions-header {
+  display: flex;
+  gap: 1rem;
+}
+
+.certificate-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0; /* IMPORTANTE: Sin padding */
+  margin: 0; /* IMPORTANTE: Sin margin */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #f5f5f5;
+}
+
+.certificate-print-container {
+  width: 100%;
+  height: fit-content;
+  padding: 0;
+  margin: 0;
+}
+
+/* Botones */
+.btn-primary,
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  background: rgba(37, 99, 235, 0.15);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background-color: #2563eb;
+}
+
+.btn-close {
+  padding: 0.75rem 1rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-close:hover {
+  background-color: #c0392b;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media print {
+  .certificate-modal-overlay,
+  .certificate-modal-content,
+  .modal-header,
+  .certificate-scroll-area {
+    display: none;
+  }
+}

@@ -1,0 +1,163 @@
+/* Header Container */
+.app-header {
+  width: 100%;
+  background: rgba(10, 25, 47, 0.95); /* Navy muy oscuro */
+  padding: 2rem 9rem;
+
+  top: 0;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-sans, sans-serif);
+}
+
+.header-label {
+  color: #94a3b8; /* Slate */
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* --- TRIGGER (El texto clickeable) --- */
+.text-picker-container {
+  position: relative;
+  display: inline-block;
+}
+
+.text-picker-trigger {
+  background: none;
+  border: none;
+  color: #60a5fa; /* Azul metálico brillante */
+  font-size: 1.5rem; /* Texto grande */
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.text-picker-trigger:hover {
+  color: #93c5fd; /* Azul más claro al hover */
+  text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+}
+
+/* Chevron animado */
+.chevron {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  opacity: 0.7;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+/* --- MENÚ DESPLEGABLE --- */
+.text-picker-menu {
+  position: absolute;
+  top: 100%;
+  max-height: 200px;
+  left: 0;
+  margin-top: 0.5rem;
+  background: #112240; /* Light Navy */
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  min-width: 200px;
+  animation: slideDown 0.2s ease-out;
+  overflow: hidden;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Opciones */
+.picker-option {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.75rem 1rem;
+  color: #e6eef8;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.picker-option:hover {
+  background: rgba(96, 165, 250, 0.1);
+  color: #60a5fa;
+}
+
+.picker-option.selected {
+  color: #60a5fa;
+  font-weight: 600;
+  background: rgba(17, 34, 64, 0.5);
+}
+
+.check {
+  font-size: 0.9rem;
+  color: #60a5fa;
+}
+/* Estilos para el select cerrado */
+.visit-input {
+  width: 60px;
+  background-color: #0a192f; /* fondo del select */
+  border: 1px solid #334155;
+  border-radius: 4px;
+  color: #e6eef8;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Estilos para las opciones del desplegable */
+.visit-input option {
+  background-color: #0a192f; /* fondo de las opciones */
+  color: #e6eef8;
+}
+
+/* Opción seleccionada en el desplegable */
+.visit-input option:checked,
+.visit-input option[selected] {
+  background-color: #112240;
+  color: #60a5fa;
+}
+
+/* Hover (puede no aplicarse en todos los navegadores) */
+.visit-input option:hover {
+  background-color: rgba(96, 165, 250, 0.06);
+  color: #60a5fa;
+}
+
+/* Focus del select */
+.visit-input:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+}

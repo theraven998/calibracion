@@ -1,0 +1,200 @@
+/* ========= CONTENEDOR DE PÁGINA ========= */
+/* Se asume que cada página de reporte usa .page como raíz */
+
+/* ========= TÍTULOS Y SECCIONES ========= */
+
+.main-title-results {
+  font-size: 1.4rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #bfdbfe;
+  padding-bottom: 0.5rem;
+}
+
+.section-block {
+  margin-bottom: 1.8rem;
+}
+
+.mb-medium {
+  margin-bottom: 1.5rem;
+}
+
+.mt-large {
+  margin-top: 2.2rem;
+}
+
+.result-subtitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-left: 4px solid #2563eb;
+  padding-left: 10px;
+}
+
+/* Texto genérico justificado */
+
+.justify-text {
+  text-align: justify;
+  line-height: 1.4;
+  color: #475569;
+  font-size: 0.82rem;
+}
+
+/* ========= TABLAS DE RESULTADOS ========= */
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff00;
+  font-size: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.results-table thead tr {
+  background-color: #1e40af;
+  color: #ffffff;
+}
+
+.results-table th,
+.results-table td {
+  border: 1px solid #cbd5e1;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.results-table th {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  font-size: 0.72rem;
+}
+
+.results-table tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.results-table tbody tr:hover {
+  background-color: #eef2ff;
+}
+
+.results-table.compact th,
+.results-table.compact td {
+  padding: 4px 6px;
+}
+
+/* Monoespaciado para números */
+
+.font-mono {
+  font-family:
+    "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+/* Mensaje para tablas vacías */
+
+.empty-row {
+  text-align: center;
+  padding: 1rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* ========= CAJA DE ESTADÍSTICAS ========= */
+
+.stats-caja {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #bfdbfe;
+}
+
+.stat-item-caja {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.stat-item-caja span {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: #475569;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+  font-weight: 600;
+}
+
+.stat-item-caja strong {
+  font-size: 0.85rem;
+  color: #1e40af;
+  font-weight: 700;
+}
+
+/* ========= OBSERVACIONES / NOTAS ========= */
+
+.observations-box {
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  padding: 0.9rem 1rem;
+  font-size: 0.8rem;
+  color: #1e293b;
+  line-height: 1.4;
+}
+
+.observations-box h4 {
+  margin: 0 0 0.4rem 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0f172a;
+}
+
+/* ========= UTILIDADES GENÉRICAS ========= */
+
+.separator-line {
+  height: 1px;
+  width: 100%;
+  background-color: #e2e8f0;
+  margin: 1.2rem 0;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ========= PRINT ========= */
+
+@media print {
+  .page {
+    width: auto;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 15mm 10mm;
+  }
+
+  .page {
+    page-break-after: always;
+  }
+
+  .page:last-child {
+    page-break-after: avoid;
+  }
+}

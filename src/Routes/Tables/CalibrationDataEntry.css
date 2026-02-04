@@ -1,0 +1,213 @@
+.calibration-entry-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #e6eef8;
+}
+
+.section-header h1 {
+  color: #60a5fa;
+  font-size: 1.8rem;
+  margin-bottom: 0.2rem;
+}
+.section-header p {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Contenedores estilo tarjeta glassmorphism */
+.data-grid-section {
+  background: rgba(17, 34, 64, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.data-grid-section h2 {
+  font-size: 1.1rem;
+  color: #bfdbfe;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Grid de Información del Equipo */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.2rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+.field-group label {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 0.4rem;
+}
+.field-group input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  color: white;
+  padding: 0.6rem;
+  border-radius: 6px;
+}
+
+/* Grid de Patrones */
+.patrones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+.patron-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  border-radius: 6px;
+}
+.row-number {
+  font-size: 0.8rem;
+  color: #60a5fa;
+  width: 25px;
+}
+
+/* --- LA TABLA ESTILO EXCEL (Smart Grid) --- */
+.smart-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.smart-grid-table th {
+  text-align: left;
+  padding: 0.8rem;
+  color: #93c5fd;
+  font-weight: 600;
+  background: rgba(96, 165, 250, 0.1);
+  border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+}
+
+.smart-grid-table td {
+  padding: 0; /* Padding 0 para que el input llene la celda */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  height: 45px;
+}
+
+.smart-grid-table td:last-child {
+  border-right: none;
+}
+
+/* Inputs dentro de la tabla: Parecen texto normal hasta que haces click */
+.grid-input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 0 1rem;
+  font-family: monospace;
+  font-size: 1rem;
+  text-align: right;
+}
+.grid-input:focus {
+  background: rgba(37, 99, 235, 0.2); /* Highlight azul al editar */
+  outline: 2px solid #60a5fa;
+  outline-offset: -2px;
+}
+
+/* Celdas de solo lectura (cálculos) */
+.read-only-cell, .calc-cell {
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  color: #94a3b8;
+  background: rgba(0, 0, 0, 0.15);
+}
+.calc-cell {
+  justify-content: flex-end;
+  font-family: monospace;
+}
+
+/* Status Badges */
+.status-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.status-badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 10px;
+  font-weight: 700;
+}
+.status-badge.pass {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid #34d399;
+}
+.status-badge.fail {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid #f87171;
+}
+
+/* Fila de advertencia si falla */
+.row-warning td {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+/* Botones y Footer */
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.results-summary {
+    display: flex;
+    gap: 2rem;
+    font-size: 1.1rem;
+}
+.results-summary strong {
+    color: #60a5fa;
+}
+
+.btn-small {
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  color: #bfdbfe;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-icon.delete {
+  background: transparent;
+  border: none;
+  color: #f87171;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.btn-primary.big {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}

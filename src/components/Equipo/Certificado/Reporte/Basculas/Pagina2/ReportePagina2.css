@@ -1,0 +1,190 @@
+/* =========================================
+   RESET GLOBAL PARA IMPRESIÓN (Solo lo esencial)
+   ========================================= */
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 0mm; /* Quitamos margen navegador para controlar nosotros */
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* =========================================
+   ESTILOS ESPECÍFICOS: PÁGINA 2
+   (Todo empieza por .report-page-2 para no dañar otras pantallas)
+   ========================================= */
+
+/* Contenedor ESTRICTO Tamaño Carta */
+.report-page-2 {
+  position: relative;
+  width: 215.9mm;  /* Ancho exacto Carta */
+  height: 279.4mm; /* Alto exacto Carta */
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden; /* CRUCIAL: Corta cualquier cosa que se salga para no crear hoja nueva */
+  background-color: white;
+  page-break-after: always; /* Asegura que la siguiente pag empiece en hoja nueva */
+  box-sizing: border-box;
+}
+
+/* Marca de agua (Solo dentro de pag 2) */
+.report-page-2 .watermark-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+}
+
+/* Contenido (Solo dentro de pag 2) */
+.report-page-2 .content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  padding: 20mm 20mm; /* Margen interno seguro (aprox 2cm) */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   TEXTOS Y TÍTULOS (Solo Página 2)
+   ========================================= */
+
+.report-page-2 .main-title-results {
+  font-size: 1.4rem;
+  text-align: center;
+  text-transform: uppercase;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #bfdbfe;
+  padding-bottom: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.report-page-2 .result-subtitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  border-left: 4px solid #2563eb;
+  padding-left: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: inline-block;
+  width: 100%;
+}
+
+.report-page-2 .justify-text {
+  text-align: justify;
+  line-height: 1.3;
+  color: #334155;
+  font-size: 0.85rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.report-page-2 .section-block {
+  margin-bottom: 1rem; /* Reducido para evitar desborde vertical */
+}
+
+.report-page-2 .mt-large {
+  margin-top: 1.5rem;
+}
+
+/* =========================================
+   TABLAS (Solo Página 2)
+   ========================================= */
+
+.report-page-2 table.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  border: 2px solid #94a3b8;
+  background-color: transparent !important;
+}
+
+/* Headers */
+.report-page-2 table.results-table th {
+  background-color: rgba(219, 234, 254, 0.95) !important; /* Azul claro casi solido */
+  color: #1e3a8a;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 6px;
+  border: 1px solid #94a3b8;
+  -webkit-print-color-adjust: exact !important;
+}
+
+/* Celdas */
+.report-page-2 table.results-table td {
+  background-color: rgba(255, 255, 255, 0.85) !important; /* Blanco semitransparente */
+  color: #000;
+  border: 1px solid #cbd5e1;
+  padding: 5px;
+  text-align: center;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  -webkit-print-color-adjust: exact !important;
+}
+
+/* Filas alternas */
+.report-page-2 table.results-table tbody tr:nth-child(even) td {
+  background-color: rgba(241, 245, 249, 0.9) !important;
+}
+
+.report-page-2 .empty-row {
+  padding: 1rem;
+  color: #64748b;
+  font-style: italic;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================================
+   DIAGRAMAS Y EXTRAS (Solo Página 2)
+   ========================================= */
+
+.report-page-2 .excentricidad-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.report-page-2 .diagram-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.report-page-2 .esquema {
+  max-width: 370px;
+  height: auto;
+  mix-blend-mode: multiply;
+}
+
+.report-page-2 .observations-box {
+  border-radius: 6px;
+  border: 1px solid #94a3b8;
+  background-color: rgba(255, 255, 255, 0.92);
+  padding: 0.8rem;
+  font-size: 0.75rem; /* Letra un poco más pequeña para ahorrar espacio */
+  color: #0f172a;
+  line-height: 1.3;
+}

@@ -1,0 +1,42 @@
+{
+  "pruebaLinealidad": {
+    "title": [
+      { "value": "PATRON", "type": "editable", "entryType": "number" },
+      { "value": "PRIMERA LECTURA", "type": "editable", "entryType": "number" },
+      { "value": "SEGUNDA LECTURA", "type": "editable", "entryType": "number" },
+      {
+        "value": "ERROR PROMEDIO (kg)",
+        "type": "readOnly",
+        "entryType": "number",
+        "formula": "ERROR_PROMEDIO"
+      },
+      {
+        "value": "INCERTIDUMBRE (kg)",
+        "type": "readOnly",
+        "entryType": "number",
+        "formula": "INCERTIDUMBRE"
+      }
+    ],
+    "defaultPatterns": ["5", "10", "15", "20", "25", "30", "35"]
+  },
+  "pruebaExcentricidad": {
+    "title": [
+      { "value": "POSICIÓN", "type": "readOnly", "entryType": "text" },
+      { "value": "CARGA (kg)", "type": "readOnly", "entryType": "number" },
+      { "value": "LECTURA", "type": "editable", "entryType": "number" },
+      {
+        "value": "ERROR",
+        "type": "readOnly",
+        "entryType": "number",
+        "formula": "ERROR_SIMPLE"
+      }
+    ],
+    "defaultPatterns": [
+      "Centro",
+      "Esquina 1",
+      "Esquina 2",
+      "Esquina 3",
+      "Esquina 4"
+    ]
+  }
+}

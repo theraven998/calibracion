@@ -1,0 +1,176 @@
+/* CalibrationForm.css (Estilos Padre - LIMPIO) */
+
+/* --- Variables Locales para Consistencia --- */
+:root {
+  --bg-navy: #0a192f;
+  --bg-light-navy: #112240;
+  --text-bright: #e6f1ff;
+  --text-muted: #8892b0;
+  --accent-cyan: #64ffda;
+  --accent-blue: #60a5fa;
+  --border-subtle: rgba(136, 146, 176, 0.15);
+}
+
+.calibration-entry-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  color: var(--text-bright);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* --- Encabezados de Sección --- */
+.section-header h1 {
+  color: var(--text-bright);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #e6f1ff 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* --- Tarjetas Glassmorphism Modernas --- */
+.data-grid-section {
+  background: rgba(17, 34, 64, 0.95);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Línea superior decorativa */
+.data-grid-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-cyan), transparent);
+  opacity: 0.7;
+}
+
+.data-grid-section h2 {
+  font-size: 1.1rem;
+  color: var(--accent-blue);
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* --- Grid de Inputs (Formularios Externos) --- */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.field-group input {
+  background: rgba(10, 25, 47, 0.6);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-bright);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.field-group input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+  background: rgba(10, 25, 47, 0.9);
+}
+
+/* --- Footer y Botones --- */
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.results-summary {
+  display: flex;
+  gap: 2.5rem;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+.results-summary strong {
+  color: var(--text-bright);
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+/* Botones Modernos */
+.btn-primary.big {
+  background: var(--accent-blue);
+  color: var(--bg-navy);
+  padding: 0.8rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+}
+
+.btn-primary.big:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+  background: #7cb3ff;
+}
+
+.btn-small {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-small:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}

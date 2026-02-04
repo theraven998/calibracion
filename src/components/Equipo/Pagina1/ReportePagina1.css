@@ -1,0 +1,156 @@
+/* Heredamos reset básico */
+* {
+  box-sizing: border-box;
+}
+
+/* Configuración de página Carta */
+@page {
+  size: letter portrait;
+  margin: 0;
+}
+
+@media print {
+  .page {
+    page-break-after: always;
+    width: 100%;
+    height: 100%;
+  }
+
+  .page:last-child {
+    page-break-after: avoid;
+  }
+}
+
+.page.report-page {
+  width: 21.59cm;
+  height: 27.94cm;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  font-family: "Arial", sans-serif; /* Tipografía más parecida a la imagen */
+  color: #000;
+}
+
+
+.content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.report-header {
+  text-align: center;
+  margin-bottom: 1.5cm;
+}
+
+.main-title {
+  font-size: 18pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1cm;
+}
+
+.cert-number-section {
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.cert-label {
+  margin-right: 10px;
+}
+
+/* Textos generales */
+.justify-text {
+  text-align: justify;
+  font-size: 10pt;
+  line-height: 1.3;
+  margin-bottom: 15px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 11pt;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+/* Tablas */
+.split-table-container {
+  display: flex;
+  gap: 15px; /* Espacio entre las dos tablas naranjas */
+  margin-bottom: 1cm;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+.custom-table th,
+.custom-table td {
+  border: 2px solid black; /* Bordes gruesos como en la imagen */
+  padding: 6px 8px;
+  vertical-align: middle;
+}
+
+.custom-table th {
+  text-align: left;
+  font-weight: normal; /* En la imagen los headers no se ven bold exagerado */
+  width: 40%;
+}
+
+.custom-table td {
+  background-color: transparent;
+  /* O blanco si el fondo molesta */
+}
+
+/* Estilo Tabla Amarilla/Naranja */
+.yellow-table th {
+  background-color: #ffcc66; /* Tono naranja/amarillo aproximado */
+}
+
+.yellow-table td {
+  background-color: #e6e6e6; /* Gris claro para el contenido, si aplica, o blanco */
+}
+/* Alternativa: si en la imagen el contenido es blanco */
+.yellow-table td {
+  background-color: white;
+}
+
+/* Estilo Tabla Azul */
+.blue-table th {
+  background-color: #99ccff; /* Tono azul claro */
+  width: 35%;
+}
+
+.blue-table td {
+  background-color: white;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Espaciado entre secciones */
+.section-block {
+  margin-bottom: 1.5cm;
+}
+
+/* Decoración título relevante (opcional, centrado simple en imagen) */
+.section-subtitle.with-lines {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.footer-logos {
+  margin-top: auto;
+  height: 2cm;
+  /* Espacio para logos inferiores */
+}

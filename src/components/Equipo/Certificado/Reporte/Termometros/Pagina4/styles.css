@@ -1,0 +1,139 @@
+/* src/components/Equipo/Certificado/Reporte/Termometros/ReporteGraficasInfrarrojo.css */
+
+.page.report-page {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  page-break-after: always;
+}
+
+.watermark-bg {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 1.5rem 2rem; /* Reducido padding superior */
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.main-title-results {
+  text-align: center;
+  font-size: 1.4rem; /* Reducido ligeramente */
+  font-weight: bold;
+  margin-top: 0; /* Sin margen superior */
+  margin-bottom: 0.5rem; /* Reducido */
+  color: #1e293b;
+  text-transform: uppercase;
+}
+
+.intro-text {
+  text-align: justify;
+  margin-bottom: 0.8rem; /* Reducido */
+  font-size: 0.85rem; /* Más pequeño */
+  line-height: 1.4; /* Más compacto */
+  color: #475569;
+}
+
+.section-block {
+  margin-bottom: 0.8rem; /* Reducido */
+}
+
+.header-margin {
+  margin-top: 0; /* Sin margen superior */
+  margin-bottom: 0; /* Sin margen inferior */
+}
+
+.chart-wrapper {
+  margin-bottom: 0.8rem; /* Reducido */
+  margin-top: 1.5rem;
+  page-break-inside: avoid;
+}
+
+.chart-title {
+  font-size: 1rem; /* Reducido */
+  font-weight: 600;
+  margin-bottom: 0.5rem; /* Reducido */
+  margin-top: 0;
+  color: #334155;
+  text-align: center;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 0.3rem; /* Reducido */
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Sin padding */
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+}
+
+.error-chart-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.empty-row {
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 1rem; /* Reducido */
+  font-size: 0.85rem;
+}
+
+.result-subtitle {
+  font-size: 1.05rem; /* Reducido */
+  font-weight: 600;
+  margin-bottom: 0.5rem; /* Reducido */
+  margin-top: 0.5rem; /* Reducido */
+  color: #1e293b;
+  padding-bottom: 0.3rem; /* Reducido */
+}
+
+.observations-box {
+  padding: 1rem; /* Reducido */
+  border-radius: 8px;
+  min-height: 60px; /* Reducido */
+}
+
+.observations-box p {
+  margin: 0;
+  line-height: 1.5; /* Más compacto */
+  color: #334155;
+  font-size: 0.85rem; /* Reducido */
+}
+
+.mt-large {
+  margin-top: 1rem; /* Muy reducido */
+}
+
+.justify-text {
+  text-align: justify;
+}
+
+/* Estilos para impresión */
+@media print {
+  .page.report-page {
+    page-break-after: always;
+  }
+
+  .chart-wrapper {
+    page-break-inside: avoid;
+  }
+  
+  .watermark-bg {
+    padding: 1rem 2rem; /* Aún más compacto en impresión */
+  }
+  
+  .main-title-results {
+    margin-top: 0;
+    margin-bottom: 0.3rem;
+  }
+}

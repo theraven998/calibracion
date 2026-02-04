@@ -1,0 +1,164 @@
+/* ========= BASCULAS (solo específico: excentricidad + diagrama + gráfica) ========= */
+
+/* Layout excentricidad: imagen + tabla */
+.excentricidad-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Contenedor del diagrama */
+.diagram-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 0;
+}
+
+/* Imagen esquema */
+.esquema {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  display: block;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Si el esquema viene como <img class="esquema" /> esto no es necesario,
+   pero ayuda si algún contenedor mete fondo */
+.diagram-box img,
+.diagram-box svg {
+  background: transparent !important;
+}
+
+/* Responsive: en pantallas angostas apila */
+@media (max-width: 820px) {
+  .excentricidad-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .esquema {
+    max-width: 520px;
+  }
+}
+
+/* ========= Gráfica (Página 3) ========= */
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.6rem 0;
+}
+
+.error-chart-svg {
+  width: 100%;
+  max-width: 600px; /* coincide con tu svgWidth */
+  height: auto;
+}
+
+/* Evitar cortes feos al imprimir (diagrama/grafica/tablas de excentricidad) */
+@media print {
+  .excentricidad-layout,
+  .diagram-box,
+  .chart-container,
+  svg,
+  img,
+  table,
+  tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+/* =========================================
+   BÁSCULAS - EXCENTRICIDAD Y GRÁFICAS
+   (Específico para Página 2 y 3)
+   ========================================= */
+
+/* Layout excentricidad: diagrama + tabla lado a lado */
+.report-page-2 .excentricidad-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  background-color: transparent;
+}
+
+/* Contenedor del diagrama */
+.report-page-2 .diagram-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Imagen esquema - limpia sin fondos extra */
+.report-page-2 .esquema {
+  max-width: 370px;
+  width: 100%;
+  height: auto;
+  display: block;
+  mix-blend-mode: multiply;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Asegurar transparencia en imágenes/svg dentro del diagrama */
+.report-page-2 .diagram-box img,
+.report-page-2 .diagram-box svg {
+  background: transparent !important;
+}
+
+/* ========= GRÁFICA DE ERRORES ========= */
+
+.report-page-2 .chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8rem 0;
+  background-color: transparent;
+}
+
+.report-page-2 .error-chart-svg {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  display: block;
+}
+
+/* ========= RESPONSIVE (Pantallas móviles/tablets) ========= */
+
+@media (max-width: 820px) {
+  .report-page-2 .excentricidad-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .report-page-2 .esquema {
+    max-width: 520px;
+  }
+}
+
+/* ========= IMPRESIÓN - Evitar cortes ========= */
+
+@media print {
+  .report-page-2 .excentricidad-layout,
+  .report-page-2 .diagram-box,
+  .report-page-2 .chart-container,
+  .report-page-2 svg,
+  .report-page-2 img,
+  .report-page-2 table,
+  .report-page-2 tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
