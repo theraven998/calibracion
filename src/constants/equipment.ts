@@ -9,10 +9,23 @@ export const EQUIPMENT_OPTIONS = [
     description: "Plataformas de pesaje industrial y alto alcance.",
   },
   {
+    id: "bascula-pesa-bebe",
+    title: "Báscula Pesa Bebé",
+    icon: "👶",
+    description: "Plataforma para pesar bebés.",
+  },
+  {
     id: "tensiometro",
     title: "Tensiómetro",
     icon: "💪",
     description: "Dispositivos para medir la presión arterial.",
+  },
+  {
+    id: "desfibrilador",
+    title: "Desfibrilador",
+    icon: "⚡",
+    description:
+      "Equipos para restaurar el ritmo cardíaco normal en casos de arritmia.",
   },
   {
     id: "tensiometro-digital",
@@ -60,7 +73,6 @@ export const EQUIPMENT_OPTIONS = [
     title: "Termohigrómetros",
     description: "Dispositivos para medir la temperatura y humedad ambiental.",
   },
-
 ] as const;
 
 export type EquipmentId = (typeof EUIPMENT_OPTIONS)[number]["id"];

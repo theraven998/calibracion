@@ -2,24 +2,21 @@ import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import Certificado from "@/components/Equipo/Certificado/Certificado/Certificado";
 import ReportePagina1 from "@/components/Equipo/Pagina1/ReportePagina1";
-import ReportePagina3 from "@/components/Equipo/Certificado/Reporte/PesaBebe/Pagina3/ReportePagina3";
-import ReportePagina4 from "@/components/Equipo/Certificado/Reporte/PesaBebe/Pagina4/ReportePagina4";
+import ReportePagina3 from "@/components/Equipo/Certificado/Reporte/Desfibriladores/Pagina3/ReportePagina3";
+import ReportePagina4 from "@/components/Equipo/Certificado/Reporte/Desfibriladores/Pagina4/ReportePagina4";
 import type { DataEquipment } from "@/components/Equipo/Data";
 import type { Center } from "@/services/api";
 import type { Metrologist } from "@/context/SelectionContext";
-import "./CertificateModal.css"; // Crearemos esto después
 import { useSelection } from "@/context/SelectionContext";
-import { type CalibrationRow } from "@/Routes/Calibration/Equipos/Basculas/components/CalibrationTable";
-import { type ExcentricidadResult } from "@/Routes/Calibration/Equipos/Basculas/components/ExcentricidadTable";
+import { type DesfibriladorRow } from "@/Routes/Calibration/Equipos/Desfibriladores/components/DesfibriladorTable";
 
 interface CertificateModalProps {
   onClose: () => void;
-  equipmentData: any; // O tu tipo DataEquipment
+  equipmentData: DataEquipment | null;
   clientData: any;
-  selectedCenter: any;
-  selectedMetrologist: any;
-  calibrationData: CalibrationRow[];
-  excentricidadData: ExcentricidadResult[];
+  selectedCenter: Center | null;
+  selectedMetrologist: Metrologist | null;
+  desfibriladorData: DesfibriladorRow[];
 }
 
 export const CertificateModal: React.FC<CertificateModalProps> = ({
@@ -28,21 +25,14 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   clientData,
   selectedCenter,
   selectedMetrologist,
-  calibrationData,
-  excentricidadData,
+  desfibriladorData,
 }) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const { selectedRevisor } = useSelection();
 
-  // Configuración de react-to-print para descargar PDF
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: `Certificado_${
-      equipmentData?.certificado || "SinNumero"
-    }.pdf`,
-    onAfterPrint: () => {
-      console.log("Descarga de PDF completada");
-    },
+    documentTitle: `Certificado_Desfibrilador_${equipmentData?.certificado || "SinNumero"}.pdf`,
     pageStyle: `
       @page {
         size: letter portrait;
@@ -55,7 +45,6 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
     `,
   });
 
-  // Fallback si faltan datos críticos
   if (!equipmentData || !clientData) {
     return (
       <div className="certificate-modal-overlay">
@@ -72,9 +61,8 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   return (
     <div className="certificate-modal-overlay">
       <div className="certificate-modal-content">
-        {/* Header con acciones */}
         <header className="modal-header">
-          <h2>Vista Previa del Certificado</h2>
+          <h2>Vista Previa del Certificado - Desfibrilador</h2>
           <div className="modal-actions-header">
             <button onClick={handlePrint} className="btn-primary">
               📥 Descargar PDF
@@ -88,22 +76,20 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
           </div>
         </header>
 
-        {/* Área scrolleable para previsualizar */}
         <div className="certificate-scroll-area">
-          {/* Contenedor que se imprime (ref apunta aquí) */}
           <div ref={componentRef} className="certificate-print-container">
-            {/* ===== PÁGINA 1: CERTIFICADO ===== */}
             <Certificado
               equipmentData={equipmentData}
               clientData={clientData}
               technicalInfo={{
-                magnitud: "MASA",
-                tipo: "BÁSCULA PESA BEBE",
-                rango: equipmentData.rango || "0 - 300 kg",
+                magnitud: "ENERGÍA, FRECUENCIA CARDÍACA, TIEMPO DE CARGA",
+                tipo: "DESFIBRILADOR",
+                rango: equipmentData.rango || "50 - 360 J",
               }}
               metrologo={selectedMetrologist}
               revisor={selectedRevisor!}
             />
+
             <ReportePagina1
               certNumber={equipmentData.certificado || "---"}
               relevantInfo={{
@@ -112,14 +98,13 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                 sitioCalibracion: selectedCenter?.name || "Laboratorio",
                 metrologo: selectedMetrologist?.nombre || "---",
               }}
-              tipoEquipo="bascula"
+              tipoEquipo="desfibrilador"
             />
-            <ReportePagina3
-              calibrationData={calibrationData}
-              excentricidadData={excentricidadData}
-            />
+
+            <ReportePagina3 desfibriladorData={desfibriladorData} />
+
             <ReportePagina4
-              calibrationData={calibrationData}
+              desfibriladorData={desfibriladorData}
               observaciones={equipmentData.observacion}
             />
           </div>

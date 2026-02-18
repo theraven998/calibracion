@@ -1,18 +1,145 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Data, { type DataEquipment } from "@/components/Equipo/Data";
 import CertificateModalTensiometro from "./components/CertificateModal";
 import { useSelection } from "@/context/SelectionContext";
 import TensiometroPressureTable, {
   type TensiometroPressureRow,
 } from "./components/TensiometroPressureTable";
-
+import url from "@/constants/url.json";
+interface ClientData {
+  name: string;
+  address: string;
+  fechaCalibracion: string;
+}
 export default function Tensiometros() {
-  const [isUploading, setIsUploading] = useState(false);
-  const handleUpload = async () => {};
+  const [clientData, setClientData] = useState<ClientData | null>(null);
 
+  const [isUploading, setIsUploading] = useState(false);
+  const {
+    selectedCenter,
+    selectedMetrologist,
+    selectedVisit,
+    selectedPatron,
+    selectedId,
+    selectedRevisor,
+  } = useSelection();
+  const handleUpload = async () => {
+    console.log("INTENTANDO SUBIR", selectedPatron);
+    console.log("selectedId:", selectedId);
+    if (!equipmentData) {
+      alert("Faltan los datos del equipo (sección Data).");
+      return;
+    }
+    if (!selectedPatron) {
+      alert("Selecciona un patrón antes de generar.");
+      return;
+    }
+    if (!selectedVisit) {
+      alert("Selecciona una visita antes de generar.");
+      return;
+    }
+    if (!rows?.length) {
+      alert("Faltan datos de presión.");
+      return;
+    }
+    if (!selectedCenter?.hospitalId) {
+      alert("Selecciona un centro antes de generar.");
+      return;
+    }
+    if (!selectedMetrologist?.id) {
+      alert("Selecciona un metrólogo antes de generar.");
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const payload = {
+        visita: selectedVisit,
+        nombreCarpetaPadre: "Tensiómetros",
+        equipo: "Tensiómetro",
+        template: { tipo: "tensiometro" },
+        numeroCertificado: equipmentData.certificado,
+        marca: equipmentData.marca,
+        modelo: equipmentData.modelo,
+        serie: equipmentData.serie,
+        patron: selectedPatron,
+        areaEquipo: equipmentData.ubicacion,
+        fechaCalibracion: new Date().toISOString(),
+        nombre: `Certificado de Calibración - Tensiómetro (${equipmentData.marca} ${equipmentData.modelo})`,
+        centerId: selectedCenter.hospitalId,
+        metrologist: selectedMetrologist,
+        revisor: selectedRevisor,
+        data: {
+          header: {
+            ...equipmentData,
+            certificado: equipmentData.certificado,
+            ubicacion: equipmentData.ubicacion,
+            clientData: clientData,
+          },
+          presiones: rows,
+          observacionesMetrologo: equipmentData.observacion || "",
+        },
+      };
+      const endpoint = `${url.url}/certificados`;
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        let msg = `Error HTTP ${res.status}`;
+        try {
+          const err = await res.json();
+          msg = err?.error ?? msg;
+        } catch {}
+        throw new Error(msg);
+      }
+
+      const created = await res.json();
+      const newId = created?._id;
+
+      if (newId) {
+        window.open(
+          `/view/${encodeURIComponent(newId)}`,
+          "_blank",
+          "noopener,noreferrer",
+        );
+      } else {
+        alert("Creado, pero la API no devolvió _id.");
+      }
+    } catch (e: any) {
+      console.error(e);
+      alert(e?.message ?? "Error subiendo certificado");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+  useEffect(() => {
+    console.log("Centro seleccionado:", selectedCenter);
+    if (selectedCenter) {
+      const now = new Date();
+      const fechaCalibracion = now
+        .toLocaleDateString("es-ES", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+        .replace(/ de (\d{4})$/, " del $1");
+      setClientData({
+        name: selectedCenter.name,
+        address: selectedCenter.address,
+        fechaCalibracion,
+      });
+    }
+  }, [selectedCenter]);
   const [showCert, setShowCert] = useState(false);
   const [equipmentData, setEquipmentData] = useState<DataEquipment | null>(
-    null
+    null,
   );
   const [rows, setRows] = useState<TensiometroPressureRow[]>([
     { punto: 40, primera: 0, segunda: 0 },
@@ -28,8 +155,6 @@ export default function Tensiometros() {
     { punto: 280, primera: 0, segunda: 0 },
   ]);
 
-  const { selectedCenter, selectedMetrologist } = useSelection();
-
   const handleDataChange = useCallback((newData: DataEquipment) => {
     setEquipmentData(newData);
   }, []);
@@ -37,12 +162,6 @@ export default function Tensiometros() {
   const handleRowsChange = useCallback((newRows: PressureRow[]) => {
     setRows(newRows);
   }, []);
-
-  const clientInfo = {
-    solicitante: "—",
-    direccion: "—",
-    fechaCalibracion: new Date().toLocaleDateString(),
-  };
 
   return (
     <div className="calibration-entry-container">
@@ -83,11 +202,12 @@ export default function Tensiometros() {
 
       {showCert && (
         <CertificateModalTensiometro
-          equipmentData={equipmentData}
-          rows={rows}
           clientData={clientInfo}
+          equipmentData={equipmentData}
+          rows={rows} // ✅ Cambiar calibrationData por rows
           selectedCenter={selectedCenter}
           selectedMetrologist={selectedMetrologist}
+          patronUsed={selectedPatron} // También agregar esto
           onClose={() => setShowCert(false)}
         />
       )}

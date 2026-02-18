@@ -14,10 +14,10 @@ interface Props {
 }
 
 export default function ExcentricidadTable({ onDataChange }: Props) {
-  const CARGA_VALUE = 20; // Valor fijo según tu ejemplo
+  const CARGA_VALUE = 5; // Valor fijo según tu ejemplo
 
   // 1. El estado debe estar al nivel superior del componente
-  const [readings, setReadings] = useState<string[]>(Array(5).fill(""));
+  const [readings, setReadings] = useState<string[]>(Array(7).fill(""));
 
   // 2. Cada vez que cambien las lecturas, calculamos y avisamos al padre
   useEffect(() => {

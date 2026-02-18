@@ -40,6 +40,7 @@ interface TipoEquipo {
   tipoEquipo: string;
   numeroCertificados: number;
   hospitalId: string;
+  id: string;
 }
 
 export default function Manage() {
@@ -49,21 +50,22 @@ export default function Manage() {
   const [isEquipoOpen, setIsEquipoOpen] = useState(false);
   const [centros, setCentros] = useState<Folder[]>([]);
   const [visitas, setVisitas] = useState<Folder[]>([]);
+  const [selectedVisita, setSelectedVisita] = useState<Folder | null>(null);
   const [loadingCentros, setLoadingCentros] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("centro");
   const [centroData, setCentroData] = useState<Partial<CentroSalud>>({
-    hospitalId: "cs_test",
-    name: "Centro de Salud TEST",
-    address: "Calle Principal 123",
-    city: "La Paz",
-    department: "La Paz",
-    tempMin: "18",
-    tempMax: "24",
-    humidityMin: "40",
-    humidityMax: "60",
-    barometricPressure: "760",
-    status: "activo",
+    hospitalId: "",
+    name: "",
+    address: "",
+    city: "",
+    department: "",
+    tempMin: "",
+    tempMax: "",
+    humidityMin: "",
+    humidityMax: "",
+    barometricPressure: "",
+    status: "",
   });
   const [visitaData, setVisitaData] = useState<Partial<Visita>>({});
   const [equipoData, setEquipoData] = useState<Partial<TipoEquipo>>({});
@@ -129,11 +131,80 @@ export default function Manage() {
   };
 
   const handleCreateVisita = async () => {
-    // Implementation here
+    try {
+      const endpointCreateVisita = `${url.url}/create/visita`;
+
+      // Get the parent folder ID from the selected centro
+      const selectedCentro = centros.find(
+        (c) => c._id === visitaData.hospitalId,
+      );
+
+      const res = await fetch(endpointCreateVisita, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          hospitalId: visitaData.hospitalId,
+          nombre: visitaData.nombreCarpeta,
+          numero: visitaData.numero,
+          idCarpetaPadre: selectedCentro?._id,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error al crear visita: ${res.statusText}`);
+      }
+
+      cargarCentros();
+      setVisitaData({});
+      alert("Visita creada exitosamente.");
+    } catch (error: any) {
+      console.error("Error creando visita:", error);
+      alert(`Error creando visita: ${error?.message ?? String(error)}`);
+    }
   };
 
   const handleCreateEquipo = async () => {
-    // Implementation here
+    try {
+      const endpointCreateEquipo = `${url.url}/create/tipo-equipo`;
+
+      // Get the parent folder ID from the selected visita
+
+      equipoData.nombreCarpeta = `${equipoData.tipoEquipo}`;
+      console.log("Selected Visita:", selectedVisita);
+      if (!selectedVisita) {
+        alert("Por favor seleccione una visita válida");
+        return;
+      }
+
+      const res = await fetch(endpointCreateEquipo, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          hospitalId: equipoData.hospitalId,
+          nombreCarpeta: equipoData.nombreCarpeta,
+          tipoEquipo: equipoData.tipoEquipo,
+          idCarpetaPadre: selectedVisita._id,
+          id: equipoData.id,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error al crear tipo de equipo: ${res.statusText}`);
+      }
+
+      cargarCentros();
+      setEquipoData({});
+      alert("Tipo de equipo creado exitosamente.");
+    } catch (error: any) {
+      console.error("Error creando tipo de equipo:", error);
+      alert(`Error creando tipo de equipo: ${error?.message ?? String(error)}`);
+    }
   };
   useEffect(() => {
     cargarCentros();
@@ -151,8 +222,8 @@ export default function Manage() {
 
   // --- Handlers ---
 
-  const handleSelectEquipo = (title: string) => {
-    setEquipoData({ ...equipoData, tipoEquipo: title });
+  const handleSelectEquipo = (id: string) => {
+    setEquipoData({ ...equipoData, id });
     // Usar setTimeout para asegurar que el estado se actualice después del render
     setTimeout(() => setIsEquipoOpen(false), 0);
   };
@@ -455,7 +526,7 @@ export default function Manage() {
                     className="btn-toggle"
                     onClick={() => setIsEquipoOpen(!isEquipoOpen)}
                   >
-                    {equipoData.tipoEquipo || "Seleccione un tipo"}
+                    {equipoData.id || "Seleccione un tipo"}
                   </button>
                   {isEquipoOpen && (
                     <div className="text-picker-container">
@@ -475,7 +546,7 @@ export default function Manage() {
                               }`}
                               onClick={(e) => {
                                 e.stopPropagation(); // AGREGAR ESTO
-                                handleSelectEquipo(opt.title); // CAMBIAR opt.id por opt.title
+                                handleSelectEquipo(opt.id); // CAMBIAR opt.id por opt.title
                               }}
                             >
                               {opt.title}
@@ -511,25 +582,25 @@ export default function Manage() {
                 <label>
                   <span className="label-text">Seleccionar Visita</span>
                   <select
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const visitaSeleccionada = visitas.find(
+                        (v) => v._id === e.target.value,
+                      );
+                      setSelectedVisita(visitaSeleccionada || null);
                       setEquipoData({
                         ...equipoData,
-                        numeroCertificados: parseInt(e.target.value),
-                      })
-                    }
+                        numeroCertificados:
+                          visitaSeleccionada?.numeroCertificados || 0,
+                      });
+                    }}
                   >
                     <option value="">Seleccione una visita</option>
                     {visitas
-                      .filter(
-                        (visita) =>
-                          visita.idCarpetaPadre === equipoData.hospitalId,
-                      )
+                      .filter((v) => v.idCarpetaPadre === equipoData.hospitalId)
                       .map((visita) => (
-                        <option
-                          key={visita._id}
-                          value={visita.numeroCertificados}
-                        >
-                          {visita.nombreCarpeta}
+                        <option key={visita._id} value={visita._id}>
+                          {visita.nombreCarpeta} - Nº{" "}
+                          {visita.numeroCertificados}
                         </option>
                       ))}
                   </select>

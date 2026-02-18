@@ -55,7 +55,7 @@
 /* ===== HEADER ===== */
 .header {
   text-align: center;
-  margin-top: 4cm;
+  margin-top: 2cm;
   margin-bottom: 0.3cm;
 }
 
@@ -331,7 +331,7 @@
   }
 
   .header {
-    margin-top: 3.5cm;
+    margin-top: 2cm;
     margin-bottom: 0.3cm;
     flex-shrink: 0;
   }
@@ -401,3 +401,8 @@
     max-height: 70px;
   }
 }
+.chart-description {
+  font-size: 10pt;
+  margin-top: 2rem;
+ color: #34495e;
+} 

@@ -21,8 +21,8 @@ interface SelectionContextType {
   selectedMetrologist: Metrologo | null;
   setSelectedMetrologist: (metrologist: Metrologo | null) => void;
 
-  selectedVisit: number | null;
-  setSelectedVisit: (visit: number | null) => void;
+  selectedVisit: string | null;
+  setSelectedVisit: (visit: string | null) => void;
 
   selectedRevisor: Metrologo | null;
   setSelectedRevisor: (revisor: Metrologo | null) => void;
@@ -42,7 +42,7 @@ function normalizeTipo(tipo: unknown) {
 
 export function SelectionProvider({ children }: { children: ReactNode }) {
   const [selectedId, setSelectedId] = useState<EquipmentId>(null as any);
-  const [selectedVisit, setSelectedVisit] = useState<number | null>(null);
+  const [selectedVisit, setSelectedVisit] = useState<string | null>(null);
   const [selectedCenter, setSelectedCenter] = useState<Center | null>(null);
   const [selectedMetrologist, setSelectedMetrologist] =
     useState<Metrologo | null>(null);

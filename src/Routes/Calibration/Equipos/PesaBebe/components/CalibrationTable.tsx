@@ -31,13 +31,10 @@ const INTERNAL_COLUMNS = [
 
 const CalibrationTable = ({ onDataChange }: Props) => {
   const [internalPatters, setInternalPatterns] = useState<string[]>([
+    "2.00",
     "5.00",
     "10.00",
     "15.00",
-    "20.00",
-    "25.00",
-    "30.00",
-    "35.00",
   ]);
 
   // Estado de inputs: Clave "fila-columna", Valor string
@@ -73,7 +70,7 @@ const CalibrationTable = ({ onDataChange }: Props) => {
           error: calculateError(p, v1, v2),
           incertidumbre: "0.01", // Valor fijo según tu lógica actual
         };
-      }
+      },
     );
 
     // Enviamos al padre
@@ -84,7 +81,7 @@ const CalibrationTable = ({ onDataChange }: Props) => {
 
   const calculateResultForRender = (
     formula: string,
-    rowIdx: number
+    rowIdx: number,
   ): string => {
     const l1 = parseFloat(values[`${rowIdx}-${IDX_L1}`]) || 0;
     const l2 = parseFloat(values[`${rowIdx}-${IDX_L2}`]) || 0;

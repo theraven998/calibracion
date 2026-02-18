@@ -150,8 +150,10 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
       else if (tipo === "ECG_RECHAZO") patterns = patternsRechazo;
       else if (tipo === "ECG_SELECCION_QRS") patterns = patternsSeleccionQRS;
       else if (tipo === "ECG_AMPLITUD_HZ") patterns = patternsAmplitudHz;
+      else if (tipo === "ECG_ANCHO") patterns = patternsAncho;
 
       const pStr = patterns[rowIdx] || "";
+      // CAMBIO CLAVE: Usar la clave correcta "resultado"
       const resultadoStr = values[`${tipo}-${rowIdx}-resultado`] || "";
 
       return {
@@ -167,6 +169,7 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
     patternsRechazo,
     patternsSeleccionQRS,
     patternsAmplitudHz,
+    patternsAncho,
     values,
   ]);
 
@@ -432,11 +435,11 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
                 >
                   <input
                     type="checkbox"
-                    checked={values[`${tipo}-${rowIdx}-patron`] === "OK"}
+                    checked={values[`${tipo}-${rowIdx}-resultado`] === "OK"}
                     onChange={(e) =>
                       setValues((prev) => ({
                         ...prev,
-                        [`${tipo}-${rowIdx}-patron`]: e.target.checked
+                        [`${tipo}-${rowIdx}-resultado`]: e.target.checked
                           ? "OK"
                           : "NO RESPONDE",
                       }))
@@ -450,7 +453,7 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
                       border: "2px solid #2ecc71",
                       transition: "all 0.3s ease",
                       boxShadow:
-                        values[`${tipo}-${rowIdx}-patron`] === "OK"
+                        values[`${tipo}-${rowIdx}-resultado`] === "OK"
                           ? "0 0 8px rgba(46, 204, 113, 0.4)"
                           : "none",
                     }}
@@ -478,12 +481,12 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
                   <input
                     type="checkbox"
                     checked={
-                      values[`${tipo}-${rowIdx}-patron`] === "NO RESPONDE"
+                      values[`${tipo}-${rowIdx}-resultado`] === "NO RESPONDE"
                     }
                     onChange={(e) =>
                       setValues((prev) => ({
                         ...prev,
-                        [`${tipo}-${rowIdx}-patron`]: e.target.checked
+                        [`${tipo}-${rowIdx}-resultado`]: e.target.checked
                           ? "NO RESPONDE"
                           : "OK",
                       }))
@@ -497,7 +500,7 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
                       border: "2px solid #e74c3c",
                       transition: "all 0.3s ease",
                       boxShadow:
-                        values[`${tipo}-${rowIdx}-patron`] === "NO RESPONDE"
+                        values[`${tipo}-${rowIdx}-resultado`] === "NO RESPONDE"
                           ? "0 0 8px rgba(231, 76, 60, 0.4)"
                           : "none",
                     }}
@@ -520,7 +523,7 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
                   padding: "0.6rem 1rem",
                   borderRadius: "6px",
                   backgroundColor:
-                    values[`${tipo}-${rowIdx}-patron`] === "OK"
+                    values[`${tipo}-${rowIdx}-resultado`] === "OK"
                       ? "rgba(46, 204, 113, 0.15)"
                       : "rgba(231, 76, 60, 0.15)",
                   textAlign: "center",
@@ -530,7 +533,7 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
                 <span
                   style={{
                     color:
-                      values[`${tipo}-${rowIdx}-patron`] === "OK"
+                      values[`${tipo}-${rowIdx}-resultado`] === "OK"
                         ? "#2ecc71"
                         : "#e74c3c",
                     fontSize: "0.95rem",
@@ -538,7 +541,7 @@ const ElectrocardiografoTable: React.FC<Props> = ({ onDataChange }) => {
                     letterSpacing: "0.3px",
                   }}
                 >
-                  {values[`${tipo}-${rowIdx}-patron`] || "NO RESPONDE"}
+                  {values[`${tipo}-${rowIdx}-resultado`] || "NO RESPONDE"}
                 </span>
               </div>
             </td>

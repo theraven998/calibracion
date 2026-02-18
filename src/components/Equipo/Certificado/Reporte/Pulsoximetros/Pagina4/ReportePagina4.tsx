@@ -14,12 +14,12 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
   // Separar datos por tipo (SPO2_PERCENT y SPO2_FP)
   const spo2Percent = useMemo(
     () => calibrationData.filter((r) => r.tipo === "SPO2_PERCENT"),
-    [calibrationData]
+    [calibrationData],
   );
 
   const spo2FP = useMemo(
     () => calibrationData.filter((r) => r.tipo === "SPO2_FP"),
-    [calibrationData]
+    [calibrationData],
   );
 
   // Convertir a puntos para gráfico - SpO2 (%)
@@ -28,16 +28,16 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
       spo2Percent
         .map((row) => {
           const patron = parseFloat(
-            String(row.patron || "0").replace(",", ".")
+            String(row.patron || "0").replace(",", "."),
           );
           const error = parseFloat(
-            String(row.errorPromedio || "0").replace(",", ".")
+            String(row.errorPromedio || "0").replace(",", "."),
           );
           if (Number.isNaN(patron) || Number.isNaN(error)) return null;
           return { patron, error };
         })
         .filter(Boolean) as { patron: number; error: number }[],
-    [spo2Percent]
+    [spo2Percent],
   );
 
   // Convertir a puntos para gráfico - SpO2 (FP)
@@ -46,16 +46,16 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
       spo2FP
         .map((row) => {
           const patron = parseFloat(
-            String(row.patron || "0").replace(",", ".")
+            String(row.patron || "0").replace(",", "."),
           );
           const error = parseFloat(
-            String(row.errorPromedio || "0").replace(",", ".")
+            String(row.errorPromedio || "0").replace(",", "."),
           );
           if (Number.isNaN(patron) || Number.isNaN(error)) return null;
           return { patron, error };
         })
         .filter(Boolean) as { patron: number; error: number }[],
-    [spo2FP]
+    [spo2FP],
   );
 
   const svgWidth = 600;
@@ -74,32 +74,31 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
               ANÁLISIS GRÁFICO DE LA EXACTITUD (PULSOXÍMETRO)
             </h2>
             <p className="justify-text intro-text">
-              Las siguientes gráficas muestran la relación entre el valor
-              patrón y el error promedio obtenido para SpO2 (%) y SpO2 (FP)
-              del pulsoxímetro bajo calibración.
+              Las siguientes gráficas muestran la relación entre el valor patrón
+              y el error promedio obtenido para SpO2 (%) y SpO2 (FP) del
+              pulsoxímetro bajo calibración.
             </p>
           </div>
 
           {/* Gráfico SpO2 (%) */}
           <div className="section-block">
-            <h3 className="result-subtitle">
-              SpO2 (%): Patrón vs Error
-            </h3>
-
+            <h3 className="result-subtitle">SpO2 (%): Patrón vs Error</h3>
             <div className="chart-container">
               {(() => {
                 // Rangos automáticos basados en los datos
                 const allPatronPercent = pointsPercent.map((p) => p.patron);
                 const allErrorPercent = pointsPercent.map((p) => p.error);
 
-                const axisMinX =
+                // Forzar el mínimo del eje X a 85
+                const axisMinX = 85;
+                // Extender el máximo ligeramente más allá del valor máximo para dar espacio visual
+                const dataMaxX =
                   allPatronPercent.length > 0
-                    ? Math.floor(Math.min(...allPatronPercent) / 10) * 10
-                    : 70;
-                const axisMaxX =
-                  allPatronPercent.length > 0
-                    ? Math.ceil(Math.max(...allPatronPercent) / 10) * 10
+                    ? Math.max(...allPatronPercent)
                     : 100;
+                // Agregar 1% de padding al rango para que el último punto sea visible
+                const axisMaxX = dataMaxX + (dataMaxX - axisMinX) * 0.5;
+
                 const axisMinY =
                   allErrorPercent.length > 0
                     ? Math.floor(Math.min(...allErrorPercent, -3) / 1) * 1
@@ -123,23 +122,24 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
                 if (pointsPercent.length === 0) {
                   return (
                     <p className="empty-row">
-                      No hay datos suficientes para generar la gráfica de
-                      SpO2 (%).
+                      No hay datos suficientes para generar la gráfica de SpO2
+                      (%).
                     </p>
                   );
                 }
 
-                // Generar ticks dinámicos
-                const xTickCount = 6;
-                const yTickCount = 7;
-                const xStep = (axisMaxX - axisMinX) / (xTickCount - 1);
+                // Generar ticks dinámicos - siempre terminar en 100
+                const xTickCount = 12;
+                const yTickCount = 12;
+                // Forzar que los ticks vayan de 85 a 100
+                const xStep = (100 - axisMinX) / (xTickCount - 1);
                 const yStep = (axisMaxY - axisMinY) / (yTickCount - 1);
                 const xTicks = Array.from({ length: xTickCount }, (_, i) =>
-                  Math.round(axisMinX + i * xStep)
+                  Math.round(axisMinX + i * xStep),
                 );
                 const yTicks = Array.from(
                   { length: yTickCount },
-                  (_, i) => Math.round((axisMinY + i * yStep) * 2) / 2
+                  (_, i) => Math.round((axisMinY + i * yStep) * 2) / 2,
                 );
 
                 return (
@@ -276,7 +276,7 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
                         points={pointsPercent
                           .map(
                             (p) =>
-                              `${localScaleX(p.patron)},${localScaleY(p.error)}`
+                              `${localScaleX(p.patron)},${localScaleY(p.error)}`,
                           )
                           .join(" ")}
                       />
@@ -311,23 +311,21 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
 
           {/* Gráfico SpO2 (FP) */}
           <div className="section-block">
-            <h3 className="result-subtitle">
-              SpO2 (FP): Patrón vs Error
-            </h3>
+            <h3 className="result-subtitle">SpO2 (FP): Patrón vs Error</h3>
 
             <div className="chart-container">
               {(() => {
                 const allPatronFP = pointsFP.map((p) => p.patron);
                 const allErrorFP = pointsFP.map((p) => p.error);
 
-                const axisMinX =
-                  allPatronFP.length > 0
-                    ? Math.floor(Math.min(...allPatronFP) / 10) * 10
-                    : 20;
-                const axisMaxX =
-                  allPatronFP.length > 0
-                    ? Math.ceil(Math.max(...allPatronFP) / 10) * 10
-                    : 130;
+                // Forzar el mínimo del eje X a 30
+                const axisMinX = 30;
+                // Extender el máximo ligeramente más allá del valor máximo para dar espacio visual
+                const dataMaxX =
+                  allPatronFP.length > 0 ? Math.max(...allPatronFP) : 100;
+                // Agregar 1% de padding al rango para que el último punto sea visible
+                const axisMaxX = dataMaxX + (dataMaxX - axisMinX) * 0.5;
+
                 const axisMinY =
                   allErrorFP.length > 0
                     ? Math.floor(Math.min(...allErrorFP, -3) / 1) * 1
@@ -351,22 +349,23 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
                 if (pointsFP.length === 0) {
                   return (
                     <p className="empty-row">
-                      No hay datos suficientes para generar la gráfica de
-                      SpO2 (FP).
+                      No hay datos suficientes para generar la gráfica de SpO2
+                      (FP).
                     </p>
                   );
                 }
 
-                const xTickCount = 6;
-                const yTickCount = 7;
+                // Generar ticks dinámicos
+                const xTickCount = 12;
+                const yTickCount = 12;
                 const xStep = (axisMaxX - axisMinX) / (xTickCount - 1);
                 const yStep = (axisMaxY - axisMinY) / (yTickCount - 1);
                 const xTicks = Array.from({ length: xTickCount }, (_, i) =>
-                  Math.round(axisMinX + i * xStep)
+                  Math.round(axisMinX + i * xStep),
                 );
                 const yTicks = Array.from(
                   { length: yTickCount },
-                  (_, i) => Math.round((axisMinY + i * yStep) * 2) / 2
+                  (_, i) => Math.round((axisMinY + i * yStep) * 2) / 2,
                 );
 
                 return (
@@ -503,7 +502,7 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
                         points={pointsFP
                           .map(
                             (p) =>
-                              `${localScaleX(p.patron)},${localScaleY(p.error)}`
+                              `${localScaleX(p.patron)},${localScaleY(p.error)}`,
                           )
                           .join(" ")}
                       />
@@ -537,7 +536,6 @@ const ReportePagina4Pulsoximetro: React.FC<ReportePagina4Props> = ({
           </div>
 
           {/* Observaciones del metrólogo */}
-   
         </div>
       </div>
     </div>

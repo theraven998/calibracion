@@ -1,28 +1,22 @@
-import "./Basculas.css";
-import CalibrationTable, {
-  type CalibrationRow,
-} from "./components/CalibrationTable";
-import ExcentricidadTable, {
-  type ExcentricidadResult,
-} from "./components/ExcentricidadTable";
+import NibpTable, { type NibpData } from "./components/NIBPTable";
+import Spo2Table, { type Spo2Data } from "./components/SPO2Table";
+import EcgTable, { type EcgData } from "./components/ECGTable";
+import RespiracionTable, {
+  type RespiracionData,
+} from "./components/RESPIRACIONTable";
 import Data, { type DataEquipment } from "@/components/Equipo/Data";
 import { useCallback, useEffect, useState } from "react";
-import { CertificateModal } from "@/Routes/Calibration/Equipos/Basculas/components/CertificateModal"; // Importa el modal
-import { useSelection } from "@/context/SelectionContext"; // Importa el context
+import { CertificateModal } from "./components/CertificateModal";
+import { useSelection } from "@/context/SelectionContext";
 import url from "@/constants/url.json";
-export interface ColumnDefinition {
-  header: string;
-  accessor: string;
-  type: "input" | "readOnly" | "status";
-  width?: string;
-  step?: string;
-}
+
 interface ClientData {
   name: string;
   address: string;
   fechaCalibracion: string;
 }
-export default function Basculas() {
+
+export default function Monitores() {
   const [isUploading, setIsUploading] = useState(false);
   const {
     selectedCenter,
@@ -33,9 +27,22 @@ export default function Basculas() {
     selectedRevisor,
   } = useSelection();
   const [clientData, setClientData] = useState<ClientData | null>(null);
+  const [showCert, setShowCert] = useState(false);
+
+  // Estados para cada tabla
+  const [nibpData, setNibpData] = useState<NibpData | null>(null);
+  const [spo2Data, setSpo2Data] = useState<Spo2Data | null>(null);
+  const [ecgData, setEcgData] = useState<EcgData | null>(null);
+  const [respiracionData, setRespiracionData] =
+    useState<RespiracionData | null>(null);
+  const [equipmentData, setEquipmentData] = useState<DataEquipment | null>(
+    null,
+  );
+
   const handleUpload = async () => {
     console.log("INTENTANDO SUBIR", selectedPatron);
     console.log("selectedId:", selectedId);
+
     if (!equipmentData) {
       alert("Faltan los datos del equipo (sección Data).");
       return;
@@ -48,12 +55,12 @@ export default function Basculas() {
       alert("Selecciona una visita antes de generar.");
       return;
     }
-    if (!calibrationData?.length) {
-      alert("Faltan datos de exactitud.");
+    if (!nibpData) {
+      alert("Faltan datos de NIBP.");
       return;
     }
-    if (!excentricidadData?.length) {
-      alert("Faltan datos de excentricidad.");
+    if (!spo2Data) {
+      alert("Faltan datos de SPO2.");
       return;
     }
     if (!selectedCenter?.hospitalId) {
@@ -69,17 +76,17 @@ export default function Basculas() {
     try {
       const payload = {
         visita: selectedVisit,
-        nombreCarpetaPadre: "Basculas de piso",
-        equipo: "Báscula de Piso",
-        template: { tipo: "bascula-piso" },
-        numeroCertificado: equipmentData.certificado, // o donde lo generes
+        nombreCarpetaPadre: "Monitores de Signos Vitales",
+        equipo: "Monitor de Signos Vitales",
+        template: { tipo: "monitor-multiparametro" },
+        numeroCertificado: equipmentData.certificado,
         marca: equipmentData.marca,
         modelo: equipmentData.modelo,
         serie: equipmentData.serie,
         patron: selectedPatron,
         areaEquipo: equipmentData.ubicacion,
         fechaCalibracion: new Date().toISOString(),
-        nombre: `Certificado de Calibración - Báscula (${equipmentData.marca} ${equipmentData.modelo})`,
+        nombre: `Certificado de Calibración - Monitor (${equipmentData.marca} ${equipmentData.modelo})`,
         centerId: selectedCenter.hospitalId,
         metrologist: selectedMetrologist,
         revisor: selectedRevisor,
@@ -90,11 +97,14 @@ export default function Basculas() {
             ubicacion: equipmentData.ubicacion,
             clientData: clientData,
           },
-          exactitud: calibrationData,
-          excentricidad: excentricidadData,
+          nibp: nibpData,
+          spo2: spo2Data,
+          ecg: ecgData,
+          respiracion: respiracionData,
           observacionesMetrologo: equipmentData.observacion || "",
         },
       };
+
       const endpoint = `${url.url}/certificados`;
       const res = await fetch(endpoint, {
         method: "POST",
@@ -115,15 +125,14 @@ export default function Basculas() {
         throw new Error(msg);
       }
 
-      const created = await res.json(); // debería incluir _id
+      const created = await res.json();
       const newId = created?._id;
 
-      // 4) Abre el certificado creado (misma URL siempre)
       if (newId) {
         window.open(
           `/view/${encodeURIComponent(newId)}`,
           "_blank",
-          "noopener,noreferrer"
+          "noopener,noreferrer",
         );
       } else {
         alert("Creado, pero la API no devolvió _id.");
@@ -136,25 +145,22 @@ export default function Basculas() {
     }
   };
 
-  const [showCert, setShowCert] = useState(false);
-  const [excentricidadData, setExcentricidadData] = useState<
-    ExcentricidadResult[]
-  >([]);
-  const handleExcentricidadChange = useCallback(
-    (newData: ExcentricidadResult[]) => {
-      setExcentricidadData(newData);
-    },
-    []
-  );
-  const [calibrationData, setCalibrationData] = useState<CalibrationRow[]>([]);
-  const handleCalibrationChange = useCallback((newData: CalibrationRow[]) => {
-    setCalibrationData(newData);
+  const handleNibpChange = useCallback((newData: NibpData) => {
+    setNibpData(newData);
   }, []);
-  const [equipmentData, setEquipmentData] = useState<DataEquipment | null>(
-    null
-  );
 
-  // Obtén el centro y metrólogo seleccionados del contexto
+  const handleSpo2Change = useCallback((newData: Spo2Data) => {
+    setSpo2Data(newData);
+  }, []);
+
+  const handleEcgChange = useCallback((newData: EcgData) => {
+    setEcgData(newData);
+  }, []);
+
+  const handleRespiracionChange = useCallback((newData: RespiracionData) => {
+    setRespiracionData(newData);
+  }, []);
+
   useEffect(() => {
     console.log("Centro seleccionado:", selectedCenter);
     if (selectedCenter) {
@@ -176,7 +182,7 @@ export default function Basculas() {
 
   const handleDataChange = useCallback((newData: DataEquipment) => {
     setEquipmentData(newData);
-    console.log("Datos recibidos en Basculas.tsx:", newData);
+    console.log("Datos recibidos en Monitores.tsx:", newData);
   }, []);
 
   return (
@@ -184,22 +190,49 @@ export default function Basculas() {
       <Data onDataChange={handleDataChange} />
 
       <section className="data-grid-section full-width">
-        <h2>2. Prueba de Exactitud</h2>
-        <CalibrationTable onDataChange={handleCalibrationChange} />
+        <h2>2. Presión Arterial No Invasiva (NIBP)</h2>
+        <NibpTable onDataChange={handleNibpChange} />
       </section>
-      <ExcentricidadTable onDataChange={handleExcentricidadChange} />
-      {/* 5. Footer y Resumen Rápido */}
+
+      <section className="data-grid-section full-width">
+        <h2>3. Saturación de Oxígeno (SPO2)</h2>
+        <Spo2Table onDataChange={handleSpo2Change} />
+      </section>
+
+      <section className="data-grid-section full-width">
+        <h2>4. Electrocardiograma (ECG)</h2>
+        <EcgTable onDataChange={handleEcgChange} />
+      </section>
+
+      <section className="data-grid-section full-width">
+        <h2>5. Respiración</h2>
+        <RespiracionTable onDataChange={handleRespiracionChange} />
+      </section>
+
       <div className="form-footer">
         <div
           className="results-summary"
           style={{ fontSize: "0.9rem", display: "block" }}
         >
-          <p>Temp Int Error Prom: </p>
-          <p>Temp Ext Error Prom: </p>
-          <p>Humedad Error Prom: </p>
+          <p>
+            Error Prom NIBP Sistólica:{" "}
+            {nibpData?.sistolica.errorPromedio ?? "-"}
+          </p>
+          <p>
+            Error Prom NIBP Diastólica:{" "}
+            {nibpData?.diastolica.errorPromedio ?? "-"}
+          </p>
+          <p>Error Prom SPO2: {spo2Data?.errorPromedio ?? "-"}</p>
         </div>
-        <button className="btn-highlight" onClick={() => {}}>
-          {" "}
+        <button
+          className="btn-highlight"
+          onClick={() => {
+            setNibpData(null);
+            setSpo2Data(null);
+            setEcgData(null);
+            setRespiracionData(null);
+          }}
+        >
           Limpiar Datos
         </button>
         <button
@@ -219,13 +252,14 @@ export default function Basculas() {
         </button>
       </div>
 
-      {/* Modal con ambas páginas y PDF */}
       {showCert && (
         <CertificateModal
           clientData={clientData!}
           equipmentData={equipmentData}
-          calibrationData={calibrationData}
-          excentricidadData={excentricidadData}
+          nibpData={nibpData}
+          spo2Data={spo2Data}
+          ecgData={ecgData}
+          respiracionData={respiracionData}
           selectedCenter={selectedCenter}
           selectedMetrologist={selectedMetrologist}
           onClose={() => setShowCert(false)}

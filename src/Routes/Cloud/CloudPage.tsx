@@ -319,7 +319,7 @@ export default function CloudPage() {
                 onClick={volverACentros}
                 disabled={loadingVisitas}
               >
-                Volver a centros
+                Volver a clientes
               </button>
             ) : null}
             <button
@@ -677,13 +677,31 @@ export default function CloudPage() {
                       </div>
 
                       <div className="colActions">
-                        <button
+                        <a
+                          href={`/view/${encodeURIComponent(c._id)}`}
                           className="btn btnSecondary"
-                          onClick={() => goToCertificado(c._id)}
-                          disabled={isGeneratingQRs}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (!isGeneratingQRs) {
+                              goToCertificado(c._id);
+                            }
+                          }}
+                          onMouseDown={(e) => {
+                            // Prevenir navegación en clic central
+                            if (e.button === 1) {
+                              e.preventDefault();
+                            }
+                          }}
+                          style={{
+                            display: "inline-block",
+                            textDecoration: "none",
+                            cursor: isGeneratingQRs ? "not-allowed" : "pointer",
+                            pointerEvents: isGeneratingQRs ? "none" : "auto",
+                          }}
                         >
                           Ver
-                        </button>
+                        </a>
+
                         <button
                           className={`btn btnSecondary ${
                             qrsSelected.includes(c.numeroCertificado || c._id)

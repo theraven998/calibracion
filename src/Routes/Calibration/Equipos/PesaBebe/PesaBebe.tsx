@@ -1,4 +1,4 @@
-import "./Basculas.css";
+import "./PesaBebe.css";
 import CalibrationTable, {
   type CalibrationRow,
 } from "./components/CalibrationTable";
@@ -7,7 +7,7 @@ import ExcentricidadTable, {
 } from "./components/ExcentricidadTable";
 import Data, { type DataEquipment } from "@/components/Equipo/Data";
 import { useCallback, useEffect, useState } from "react";
-import { CertificateModal } from "@/Routes/Calibration/Equipos/Basculas/components/CertificateModal"; // Importa el modal
+import { CertificateModal } from "./components/CertificateModal"; // Importa el modal
 import { useSelection } from "@/context/SelectionContext"; // Importa el context
 import url from "@/constants/url.json";
 export interface ColumnDefinition {

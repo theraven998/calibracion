@@ -74,16 +74,15 @@
   background: rgba(11, 18, 32, 0.92); /* sólido para cubrir en scroll */
   backdrop-filter: blur(6px);
 
-  border-bottom: 2px solid var(--border-strong);
   white-space: nowrap;
 }
 
 /* Celdas */
 .results-table tbody td {
   padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
   background-color: var(--bg-card);
   vertical-align: middle;
+  border-color: transparent;
 }
 
 
@@ -95,6 +94,7 @@
 /* Hover elegante + borde cyan lateral */
 .results-table tbody tr {
   transition: background-color 180ms ease, transform 120ms ease, box-shadow 120ms ease;
+  border-color: red;
 }
 
 

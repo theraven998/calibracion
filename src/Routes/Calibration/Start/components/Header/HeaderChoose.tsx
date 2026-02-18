@@ -4,7 +4,7 @@ import { useSelection, type Metrologist } from "@/context/SelectionContext";
 import { EQUIPMENT_OPTIONS } from "@/constants/equipment";
 import { useCenters } from "@/hooks/useCenters";
 import type { Center } from "@/services/api";
-
+import url from "@/constants/url.json";
 import { useMetrologos } from "@/hooks/useMetrologos";
 import type { Metrologo } from "@/services/api";
 
@@ -14,7 +14,18 @@ interface HeaderChooseProps {
   onSelectCenter?: (center: Center) => void;
   onSelectMetrologist?: (metrologist: Metrologist) => void;
 }
-
+type Visit = {
+  _id: string; // o number, según tu API
+  id: number; // o string, según tu API
+  numero: number; // número de visita que quieres mostrar
+  nombreCarpeta: string;
+};
+async function fetchVisitsByCenter(centerId: string): Promise<Visit[]> {
+  // Aquí llamas a tu API real
+  const res = await fetch(`${url.url}/clients/${centerId}/visits`);
+  if (!res.ok) throw new Error("Error al obtener visitas");
+  return res.json();
+}
 export default function HeaderChoose({
   onSelect,
   onSelectCenter,
@@ -34,6 +45,9 @@ export default function HeaderChoose({
 
   const { centers, loading, error } = useCenters();
   const { Metrologos } = useMetrologos();
+  const [visits, setVisits] = useState<Visit[]>([]);
+  const [visitsLoading, setVisitsLoading] = useState(false);
+  const [visitsError, setVisitsError] = useState<string | null>(null);
   // Referencias y Estados de UI
   const [isEquipmentOpen, setIsEquipmentOpen] = useState(false);
   const equipmentRef = useRef<HTMLDivElement>(null);
@@ -62,8 +76,6 @@ export default function HeaderChoose({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // --- Handlers ---
-
   const handleSelectEquipment = (id: string) => {
     setSelectedId(id);
     setIsEquipmentOpen(false);
@@ -73,6 +85,8 @@ export default function HeaderChoose({
   // Ahora recibimos el OBJETO completo del centro
   const handleSelectCenter = (center: Center) => {
     setSelectedCenter(center);
+    setSelectedVisit(null); // limpiar visita cuando cambie centro
+    setVisits([]); // limpiar visitas actuales
     setIsCenterOpen(false);
     if (onSelectCenter) onSelectCenter(center);
   };
@@ -85,6 +99,35 @@ export default function HeaderChoose({
   };
 
   // --- Labels (Optimizados) ---
+  useEffect(() => {
+    if (!selectedCenter?.id) {
+      setVisits([]);
+      setVisitsError(null);
+      return;
+    }
+
+    setVisitsLoading(true);
+    setVisitsError(null);
+
+    fetchVisitsByCenter(String(selectedCenter._id))
+      .then((data) => {
+        setVisits(data);
+        // si la visita seleccionada ya no existe, la limpiamos
+        if (
+          selectedVisit != null &&
+          !data.some((v) => v.numero === selectedVisit)
+        ) {
+          setSelectedVisit(null);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setVisitsError("Error al cargar visitas");
+        setVisits([]);
+        setSelectedVisit(null);
+      })
+      .finally(() => setVisitsLoading(false));
+  }, [selectedCenter?.id]);
 
   // Equipo sigue usando ID, buscamos su label
   const currentEquipmentLabel =
@@ -138,7 +181,7 @@ export default function HeaderChoose({
         </div>
 
         {/* --- Center Picker --- */}
-        <span className="header-label">Centro de Salud: </span>
+        <span className="header-label">Cliente: </span>
         <div className="text-picker-container" ref={centerRef}>
           <button
             className="text-picker-trigger"
@@ -213,22 +256,41 @@ export default function HeaderChoose({
             </div>
           )}
         </div>
-        <span className="header-label">Visita No.: </span>
-        <select
-          className="visit-input"
-          value={selectedVisit ?? ""}
-          onChange={(e) =>
-            setSelectedVisit(e.target.value ? Number(e.target.value) : null)
-          }
-          aria-label="Número de visita"
-        >
-          <option value="" disabled>
-            N° Visita
-          </option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
+        <span className="header-label">Visita: </span>
+        {visitsLoading ? (
+          <span className="visit-loading">Cargando visitas...</span>
+        ) : !selectedCenter ? (
+          <span className="visit-empty">
+            Seleccione un centro para ver visitas
+          </span>
+        ) : visitsError ? (
+          <span className="visit-error">{visitsError}</span>
+        ) : visits.length === 0 ? (
+          <span className="visit-empty">
+            Cliente sin visitas creadas, vea crear una visita
+          </span>
+        ) : (
+          <select
+            className="visit-input"
+            value={selectedVisit ?? ""}
+            onChange={(e) => {
+              const selectedVisitId =
+                visits.find((visit) => visit.nombreCarpeta === e.target.value)
+                  ?._id || null;
+              setSelectedVisit(selectedVisitId);
+            }}
+            aria-label="Número de visita"
+          >
+            <option value="" disabled>
+              Seleccione
+            </option>
+            {visits.map((visit) => (
+              <option key={visit.id} value={visit.nombreCarpeta}>
+                {visit.nombreCarpeta}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
     </header>
   );

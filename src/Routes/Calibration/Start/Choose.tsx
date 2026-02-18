@@ -10,6 +10,9 @@ import Pulsoximetro from "../Equipos/Pulsoximetro/Pulsoximetros";
 import Electrocardiografo from "../Equipos/Electrocardiografo/Electrocardiografo";
 import Infrarrojos from "../Equipos/Infrarrojo/Infrarrojo";
 import Termometros from "../Equipos/Termometros/Termometros";
+import BasculaPesaBebe from "../Equipos/PesaBebe/PesaBebe";
+import Monitores from "../Equipos/Monitores/Monitor";
+import Desfibriladores from "../Equipos/Desfibriladores/Desfibriladores";
 // Definimos los tipos de equipos disponibles
 // Esto podría venir de un JSON o base de datos en el futuro
 const EQUIPMENT_TYPES = [
@@ -30,6 +33,12 @@ const EQUIPMENT_TYPES = [
     title: "Tensiometro",
     icon: "💪",
     description: "Dispositivos para medir la presión arterial.",
+  },
+  {
+    id: "desfibrilador",
+    title: "Desfibrilador",
+    icon: "",
+    description: "Desfibrialdor",
   },
   {
     id: "tensiometro-digital",
@@ -103,7 +112,10 @@ const renderScreenEquipment = (idEquipment: string) => {
         return <Infrarrojos />;
       case "termometro":
         return <Termometros />;
-        return <h1>Equipo seleccionado: Termómetro</h1>;
+      case "monitor-multiparametro":
+        return <Monitores />;
+      case "desfibrilador":
+        return <Desfibriladores />;
       default:
         return <h1>Equipo seleccionado: {idEquipment}</h1>;
     }

@@ -2,24 +2,27 @@ import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import Certificado from "@/components/Equipo/Certificado/Certificado/Certificado";
 import ReportePagina1 from "@/components/Equipo/Pagina1/ReportePagina1";
-import ReportePagina3 from "@/components/Equipo/Certificado/Reporte/PesaBebe/Pagina3/ReportePagina3";
-import ReportePagina4 from "@/components/Equipo/Certificado/Reporte/PesaBebe/Pagina4/ReportePagina4";
+import ReportePagina3 from "@/components/Equipo/Certificado/Reporte/Monitores/Pagina3/ReportePagina3";
+import ReportePagina4 from "@/components/Equipo/Certificado/Reporte/Monitores/Pagina4/ReportePagina4";
 import type { DataEquipment } from "@/components/Equipo/Data";
 import type { Center } from "@/services/api";
 import type { Metrologist } from "@/context/SelectionContext";
-import "./CertificateModal.css"; // Crearemos esto después
 import { useSelection } from "@/context/SelectionContext";
-import { type CalibrationRow } from "@/Routes/Calibration/Equipos/Basculas/components/CalibrationTable";
-import { type ExcentricidadResult } from "@/Routes/Calibration/Equipos/Basculas/components/ExcentricidadTable";
+import { type NibpData } from "@/Routes/Calibration/Equipos/Monitores/components/NIBPTable";
+import { type Spo2Data } from "@/Routes/Calibration/Equipos/Monitores/components/SPO2Table";
+import { type EcgData } from "@/Routes/Calibration/Equipos/Monitores/components/ECGTable";
+import { type RespiracionData } from "@/Routes/Calibration/Equipos/Monitores/components/RESPIRACIONTable";
 
 interface CertificateModalProps {
   onClose: () => void;
-  equipmentData: any; // O tu tipo DataEquipment
+  equipmentData: DataEquipment | null;
   clientData: any;
-  selectedCenter: any;
-  selectedMetrologist: any;
-  calibrationData: CalibrationRow[];
-  excentricidadData: ExcentricidadResult[];
+  selectedCenter: Center | null;
+  selectedMetrologist: Metrologist | null;
+  nibpData: NibpData | null;
+  spo2Data: Spo2Data | null;
+  ecgData: EcgData | null;
+  respiracionData: RespiracionData | null;
 }
 
 export const CertificateModal: React.FC<CertificateModalProps> = ({
@@ -28,8 +31,10 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   clientData,
   selectedCenter,
   selectedMetrologist,
-  calibrationData,
-  excentricidadData,
+  nibpData,
+  spo2Data,
+  ecgData,
+  respiracionData,
 }) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const { selectedRevisor } = useSelection();
@@ -37,12 +42,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   // Configuración de react-to-print para descargar PDF
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: `Certificado_${
-      equipmentData?.certificado || "SinNumero"
-    }.pdf`,
-    onAfterPrint: () => {
-      console.log("Descarga de PDF completada");
-    },
+    documentTitle: `Certificado_Monitor_${equipmentData?.certificado || "SinNumero"}.pdf`,
     pageStyle: `
       @page {
         size: letter portrait;
@@ -74,7 +74,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
       <div className="certificate-modal-content">
         {/* Header con acciones */}
         <header className="modal-header">
-          <h2>Vista Previa del Certificado</h2>
+          <h2>Vista Previa del Certificado - Monitor de Signos Vitales</h2>
           <div className="modal-actions-header">
             <button onClick={handlePrint} className="btn-primary">
               📥 Descargar PDF
@@ -97,13 +97,15 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
               equipmentData={equipmentData}
               clientData={clientData}
               technicalInfo={{
-                magnitud: "MASA",
-                tipo: "BÁSCULA PESA BEBE",
-                rango: equipmentData.rango || "0 - 300 kg",
+                magnitud: "PRESIÓN, SATURACIÓN, ECG, RESPIRACIÓN",
+                tipo: "MONITOR DE SIGNOS VITALES",
+                rango: equipmentData.rango || "Variable según parámetro",
               }}
               metrologo={selectedMetrologist}
               revisor={selectedRevisor!}
             />
+
+            {/* ===== PÁGINA 1B: INFORMACIÓN RELEVANTE ===== */}
             <ReportePagina1
               certNumber={equipmentData.certificado || "---"}
               relevantInfo={{
@@ -112,14 +114,16 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                 sitioCalibracion: selectedCenter?.name || "Laboratorio",
                 metrologo: selectedMetrologist?.nombre || "---",
               }}
-              tipoEquipo="bascula"
+              tipoEquipo="monitor"
             />
-            <ReportePagina3
-              calibrationData={calibrationData}
-              excentricidadData={excentricidadData}
-            />
+
+            {/* ===== PÁGINA 2: RESULTADOS NIBP Y SPO2 ===== */}
+            <ReportePagina3 nibpData={nibpData} spo2Data={spo2Data} />
+
+            {/* ===== PÁGINA 3: RESULTADOS ECG, RESPIRACIÓN Y OBSERVACIONES ===== */}
             <ReportePagina4
-              calibrationData={calibrationData}
+              ecgData={ecgData}
+              respiracionData={respiracionData}
               observaciones={equipmentData.observacion}
             />
           </div>

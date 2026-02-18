@@ -124,7 +124,7 @@
 }
 /* Estilos para el select cerrado */
 .visit-input {
-  width: 60px;
+  width: 120px;
   background-color: #0a192f; /* fondo del select */
   border: 1px solid #334155;
   border-radius: 4px;

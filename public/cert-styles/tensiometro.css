@@ -1,0 +1,397 @@
+/* =========================================
+   RESET & VARIABLES
+   ========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #2c3e50; /* Azul oscuro corporativo */
+  --accent-color: #c59b2a; /* Dorado */
+  --text-color: #34495e; /* Gris texto */
+  --border-color: #bdc3c7;
+  --bg-modal: #525659; /* Fondo gris oscuro tipo visor PDF */
+  --page-width: 21.59cm; /* Carta ancho */
+  --page-height: 27.94cm; /* Carta alto */
+}
+
+/* =========================================
+   1. CONFIGURACIÓN DE IMPRESIÓN (@page)
+   ========================================= */
+@page {
+  size: letter portrait;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: var(--page-width);
+    height: var(--page-height);
+  }
+
+  /* Ocultar elementos de UI del modal al imprimir */
+  .certificate-modal-overlay,
+  .modal-header,
+  .btn-primary,
+  .btn-secondary,
+  .btn-close {
+    display: none !important;
+  }
+
+  /* El contenedor de impresión se vuelve transparente y fluido */
+  .certificate-modal-content {
+    position: static;
+    width: 100%;
+    height: auto;
+    background: none;
+    box-shadow: none;
+    border: none;
+    overflow: visible;
+  }
+
+  .certificate-scroll-area {
+    background: none;
+    padding: 0;
+    display: block;
+    overflow: visible;
+  }
+
+  .certificate-print-container {
+    width: 100%;
+    display: block;
+  }
+
+  /* Forzar estilos de página para papel */
+  .page {
+    width: var(--page-width) !important;
+    height: var(--page-height) !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    page-break-after: always;
+    break-after: page;
+    position: relative;
+    /* Asegurar colores de fondo (encabezados de tabla, etc.) */
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Evitar cortes feos en tablas */
+  tr {
+    page-break-inside: avoid;
+  }
+}
+
+/* =========================================
+   2. ESTILOS DEL MODAL (VISTA PREVIA)
+   ========================================= */
+.certificate-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.certificate-modal-content {
+  background-color: white;
+  width: 95%;
+  max-width: 1100px;
+  height: 90vh;
+  border-radius: 8px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  flex-shrink: 0; /* Evita que se encoja */
+}
+
+.modal-header h2 {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+
+.modal-actions-header {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.certificate-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--bg-modal);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.certificate-print-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Separación visual entre hojas en pantalla */
+  /* align-items: center; Se quita para evitar conflictos de ancho */
+}
+
+/* Botones del Modal */
+button {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border: none;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-secondary {
+  background-color: white;
+  border: 1px solid #cbd5e1;
+  color: var(--primary-color);
+}
+.btn-secondary:hover {
+  background-color: #f1f5f9;
+}
+
+.btn-close {
+  background: transparent;
+  font-size: 1.5rem;
+  color: #64748b;
+  padding: 0 0.5rem;
+}
+
+/* =========================================
+   3. ESTRUCTURA DE PÁGINA ("HOJA FÍSICA")
+   ========================================= */
+.page {
+  width: var(--page-width);
+  height: var(--page-height);
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden; /* Importante para que la watermark no salga */
+}
+
+.watermark-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: contain; /* O '100% 100%' si la imagen debe estirarse */
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 0;
+}
+
+/* Contenedor interno con padding seguro */
+.content {
+  position: relative; /* Para estar sobre el watermark */
+  z-index: 1;
+  padding: 2.5cm 2cm; /* Top/Bot 2.5cm, L/R 2cm */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   4. ESTILOS DE TEXTO Y TÍTULOS (ESTILO CORPORATIVO)
+   ========================================= */
+.section-block {
+  margin-bottom: 1rem;
+}
+
+.header-margin {
+  margin-bottom: 1.5rem;
+  margin-top: 1cm; /* Ajuste para no pegar al logo */
+}
+
+.mt-large {
+  margin-top: 2rem;
+}
+
+/* Título Principal de Resultados */
+.main-title-results {
+  font-size: 16pt;
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 0.5cm;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--accent-color);
+  display: inline-block;
+  padding-bottom: 5px;
+  width: 100%; /* Para que la línea ocupe todo */
+}
+
+/* Subtítulos numerados */
+.result-subtitle {
+  font-size: 11pt;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-left: 4rem;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  border-left: 4px solid var(--accent-color);
+  padding-left: 50px;
+}
+
+/* Textos generales */
+.justify-text {
+  text-align: justify;
+  font-size: 10pt;
+  line-height: 1.4;
+  color: var(--text-color);
+  margin-bottom: 0.5cm;
+}
+
+.font-mono {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 600;
+}
+
+/* =========================================
+   5. TABLAS DE RESULTADOS
+   ========================================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+  margin-bottom: 1rem;
+}
+
+/* Estilos de Tabla de Datos */
+.results-table2 th,
+.results-table2 td {
+  border: 1px solid var(--border-color);
+  padding: 6px 8px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.results-table2 th {
+  background-color: #f8f9fa;
+  color: var(--primary-color);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 8.5pt;
+}
+
+/* Estilos de Tabla Resumen (Estadístico) */
+.summary-table {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.summary-table th,
+.summary-table td {
+  border: 1px solid var(--border-color);
+  padding: 6px;
+  text-align: center;
+}
+
+.summary-table th {
+  background-color: #f8f9fa;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.summary-table td:first-child {
+  text-align: left;
+  padding-left: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.empty-row {
+  padding: 2rem;
+  font-style: italic;
+  color: #95a5a6;
+  text-align: center;
+}
+
+/* =========================================
+   6. GRÁFICOS Y OBSERVACIONES
+   ========================================= */
+.chart-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5cm 0;
+  /* Contenedor limpio, sin borde para impresión final, o borde sutil */
+  min-height: 200px;
+}
+
+.error-chart-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Caja de observaciones */
+.observations-box {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+  min-height: 80px;
+  font-size: 9pt;
+  background-color: #fafafa; /* Fondo muy sutil */
+  color: var(--text-color);
+}
+
+/* Estilos auxiliares importados del ejemplo anterior
+   (Por si reutilizas componentes como .header o .signatures) */
+.signatures {
+  margin-top: auto; /* Empujar al fondo si es necesario */
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1cm;
+}
+
+.signature-block {
+  text-align: center;
+  width: 200px;
+}
+
+.signature-line {
+  border-bottom: 1px solid var(--primary-color);
+  height: 1.5cm;
+  margin-bottom: 5px;
+}
+.page.report-page .intro-text .chart-description {
+  text-align: justify;
+  line-height: 1.5;
+  color: red;
+  font-size: 0.92rem;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+}

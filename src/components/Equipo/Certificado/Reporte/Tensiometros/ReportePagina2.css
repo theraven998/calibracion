@@ -1,0 +1,308 @@
+// Estilos CSS modernos y estéticos para ReportePagina2.tsx
+// Copia y pega estos estilos en tu archivo CSS/SCSS global o styled-components
+
+/* =========================================
+   RESET GLOBAL PARA IMPRESIÓN (Página 2 Tensiometros)
+   ========================================= */
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 0mm;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* =========================================
+   CONTENEDOR PÁGINA 2 TENSIÓMETROS
+   ========================================= */
+.page.report-page {
+  position: relative;
+  width: 215.9mm;
+  height: 279.4mm;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  page-break-after: always;
+  box-sizing: border-box;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Fondo con marca de agua */
+.page.report-page .watermark-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  opacity: 0.1;
+}
+
+/* Contenido principal */
+.page.report-page .content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  padding: 22mm 18mm;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   TIPOGRAFÍA Y TÍTULOS
+   ========================================= */
+.page.report-page .main-title-results {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.8rem;
+  position: relative;
+}
+
+.page.report-page .main-title-results::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 2px;
+}
+
+.page.report-page .result-subtitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin: 0 0 1rem 0;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(30, 64, 175, 0.1) 100%
+  );
+  border-left: 5px solid #3b82f6;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+}
+
+.page.report-page .intro-text .chart-description {
+  text-align: justify;
+  line-height: 1.5;
+  color: #334155;
+  font-size: 0.92rem;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+/* Bloques de sección */
+.page.report-page .section-block {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.page.report-page .header-margin {
+  background: transparent;
+  box-shadow: none;
+  padding: 1rem 0;
+}
+
+.page.report-page .mt-large {
+  margin-top: 1.8rem;
+}
+
+/* =========================================
+   TABLA PRINCIPAL DE RESULTADOS
+   ========================================= */
+.page.report-page .results-table2 {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.88rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* Headers de tabla */
+.page.report-page .results-table2 thead th {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: white;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  letter-spacing: 0.03em;
+  position: relative;
+}
+
+.page.report-page .results-table2 thead th:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Celdas de datos */
+.page.report-page .results-table2 tbody td {
+  padding: 1.1rem 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+  font-family: "SFMono-Regular", Consolas, "Roboto Mono", monospace;
+  font-weight: 500;
+  color: #1e293b;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.page.report-page .results-table2 tbody tr:hover td {
+  background: rgba(59, 130, 246, 0.05);
+}
+
+/* Filas alternas */
+.page.report-page .results-table2 tbody tr:nth-child(even) td {
+  background: linear-gradient(
+    90deg,
+    rgba(241, 245, 249, 0.4) 0%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+}
+
+/* Fila vacía */
+.page.report-page .empty-row {
+  padding: 2rem !important;
+  color: #64748b;
+  font-style: italic;
+  font-size: 1rem;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 116, 139, 0.1) 0%,
+    rgba(148, 163, 184, 0.1) 100%
+  );
+  text-align: center;
+}
+
+/* =========================================
+   TABLA RESUMEN ESTADÍSTICO
+   ========================================= */
+.page.report-page .summary-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(248, 250, 252, 0.95) 100%
+  );
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.15);
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  margin-top: 1rem;
+}
+
+.page.report-page .summary-table thead th {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 1rem 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.page.report-page .summary-table thead th:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.page.report-page .summary-table tbody td {
+  padding: 1.2rem 1.25rem;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+  font-family: "SFMono-Regular", Consolas, "Roboto Mono", monospace;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.page.report-page .summary-table tbody tr:last-child td {
+  border-bottom: none;
+  font-weight: 700;
+  background: linear-gradient(
+    90deg,
+    rgba(14, 165, 233, 0.1) 0%,
+    rgba(2, 132, 199, 0.1) 100%
+  );
+}
+
+.page.report-page .summary-table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* =========================================
+   FUENTES MONOESPACIADAS
+   ========================================= */
+.page.report-page .font-mono {
+  font-family:
+    "SFMono-Regular", Consolas, "Roboto Mono", "Courier New", monospace !important;
+  font-size: 1em;
+  letter-spacing: 0.02em;
+}
+
+/* =========================================
+   RESPONSIVE PARA PREVIEW
+   ========================================= */
+@media screen and (max-width: 800px) {
+  .page.report-page {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .page.report-page .content {
+    padding: 15px;
+    gap: 1rem;
+  }
+}

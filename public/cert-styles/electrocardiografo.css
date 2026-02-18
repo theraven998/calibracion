@@ -1,0 +1,520 @@
+/* =========================================
+   ELECTROCARDIÓGRAFO - CSS UNIFICADO
+   Paleta: Tonos azules como monitores
+   ========================================= */
+
+/* =========================================
+   CONFIGURACIÓN BASE
+   ========================================= */
+
+/* Marca de agua ocupa toda la página */
+.report-page .watermark-bg {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 27.94cm !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  z-index: 0 !important;
+}
+
+/* Padding del contenido */
+.report-page .content {
+  padding: 1cm 1.8cm !important;
+  position: relative;
+  z-index: 10;
+}
+
+/* =========================================
+   TÍTULOS Y TEXTOS - TONOS AZULES
+   ========================================= */
+.main-title-results {
+  font-size: 1.05rem;
+  text-align: center;
+  text-transform: uppercase;
+  color: #0f172a;
+  font-weight: 700;
+  margin: 0.2rem 0 0.4rem;
+  border-bottom: 2px solid #3b82f6;
+  padding: 0.3rem 0.5rem 0.25rem;
+  letter-spacing: 0.5px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 4px;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.result-subtitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0.3rem 0 0.25rem;
+  text-transform: uppercase;
+  border-left: 3px solid #3b82f6;
+  padding: 0.2rem 0 0.2rem 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(219, 234, 254, 0.6),
+    rgba(255, 255, 255, 0.3)
+  );
+  display: block;
+  border-radius: 0 4px 4px 0;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.intro-text {
+  font-size: 0.7rem;
+  color: #1e293b;
+  line-height: 1.3;
+  margin-bottom: 0.3rem;
+  padding: 0.35rem 0.6rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  text-align: justify;
+}
+
+/* =========================================
+   ESPACIADO DE SECCIONES
+   ========================================= */
+.section-block {
+  margin-bottom: 0.3rem;
+}
+
+.header-margin {
+  margin-top: 0.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.mt-large {
+  margin-top: 0.5rem;
+}
+
+/* =========================================
+   TABLAS - TONOS AZULES
+   ========================================= */
+.results-table2 {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  border: 2px solid #93c5fd;
+  margin: 0.2rem 0 0.4rem;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Headers - AZUL MEDIO */
+.results-table2 thead th {
+  background-color: rgba(147, 197, 253, 0.95) !important;
+  color: #0f172a !important;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 4px 5px;
+  border: 1px solid #93c5fd;
+  text-align: center;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Celdas de datos - FONDO AZUL MUY SUAVE */
+.results-table2 tbody td {
+  background-color: rgba(239, 246, 255, 0.3) !important;
+  color: #0f172a;
+  border: 1px solid #dbeafe;
+  padding: 4px 5px;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Filas alternas - AZUL MUY CLARO */
+.results-table2 tbody tr:nth-child(even) td {
+  background-color: rgba(239, 246, 255, 0.5) !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Footer de tabla - AZUL SUAVE */
+.results-table2 tfoot td {
+  background-color: rgba(191, 219, 254, 0.7) !important;
+  border-top: 2px solid #93c5fd;
+  padding: 4px 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.3;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.results-table2 tfoot tr:first-child td {
+  border-top: 2px solid #3b82f6;
+  background-color: rgba(219, 234, 254, 0.8) !important;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Primera columna destacada */
+.results-table2 tbody td:first-child {
+  font-weight: 600;
+  background-color: rgba(248, 250, 252, 0.98) !important;
+  color: #0f172a;
+}
+
+/* Columna de error/última columna - AZUL MUY CLARO */
+.results-table2 tbody td:last-child {
+  font-weight: 700;
+  background-color: rgba(239, 246, 255, 0.95) !important;
+  color: #1e3a8a;
+}
+
+/* =========================================
+   UTILIDADES DE TEXTO
+   ========================================= */
+.font-mono {
+  font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+  font-size: 1em;
+}
+
+.font-bold {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.empty-row {
+  padding: 0.6rem !important;
+  color: #475569;
+  font-style: italic;
+  text-align: center;
+  font-size: 0.7rem;
+  background-color: rgba(248, 250, 252, 0.95) !important;
+}
+
+/* =========================================
+   STATUS BADGES - TONOS AZULES Y ROJOS
+   ========================================= */
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  text-align: center;
+  min-width: 100px;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.status-ok {
+  background-color: rgba(191, 219, 254, 0.95) !important;
+  color: #1e3a8a !important;
+  border: 1.5px solid #3b82f6;
+}
+
+.status-error {
+  background-color: rgba(254, 226, 226, 0.95) !important;
+  color: #991b1b !important;
+  border: 1.5px solid #ef4444;
+}
+
+/* =========================================
+   CAJA DE OBSERVACIONES
+   ========================================= */
+.observations-box {
+  border-radius: 4px;
+  border: 1px solid #93c5fd;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.72rem;
+  color: #0f172a;
+  line-height: 1.4;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(249, 250, 251, 0.9)
+  );
+  margin-top: 0.4rem;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.08);
+  min-height: 2cm;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.observations-box p {
+  margin: 0 0 0.5rem 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.observations-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================
+   SEPARADORES VISUALES
+   ========================================= */
+.section-block + .section-block::before {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, transparent);
+  margin: 0.3rem 0 0.2rem 0;
+}
+
+/* =========================================
+   AJUSTES ESPECÍFICOS POR PÁGINA
+   ========================================= */
+
+/* PÁGINA 3: ECG Amplitud */
+.report-page:nth-of-type(3) .content {
+  padding: 0.9cm 1.8cm !important;
+}
+
+.report-page:nth-of-type(3) .main-title-results {
+  margin: 0.2rem 0 0.3rem;
+  font-size: 1rem;
+}
+
+.report-page:nth-of-type(3) .intro-text {
+  margin-bottom: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.68rem;
+}
+
+.report-page:nth-of-type(3) .section-block {
+  margin-bottom: 0.25rem;
+}
+
+.report-page:nth-of-type(3) .result-subtitle {
+  margin: 0.25rem 0 0.2rem;
+  font-size: 0.78rem;
+}
+
+.report-page:nth-of-type(3) .results-table2 {
+  margin: 0.2rem 0 0.35rem;
+  font-size: 0.77rem;
+}
+
+.report-page:nth-of-type(3) .results-table2 thead th {
+  padding: 4px 4px;
+  font-size: 0.74rem;
+}
+
+.report-page:nth-of-type(3) .results-table2 tbody td {
+  padding: 3px 4px;
+  font-size: 0.77rem;
+}
+
+.report-page:nth-of-type(3) .results-table2 tfoot td {
+  padding: 4px 5px;
+  font-size: 0.74rem;
+}
+
+.report-page:nth-of-type(3) .observations-box {
+  padding: 0.55rem 0.75rem;
+  font-size: 0.7rem;
+  min-height: 1.8cm;
+}
+
+/* PÁGINA 4: Pruebas Cualitativas */
+.report-page:nth-of-type(4) .content {
+  padding: 0.9cm 1.8cm !important;
+}
+
+.report-page:nth-of-type(4) .main-title-results {
+  margin: 0.2rem 0 0.3rem;
+  font-size: 1rem;
+}
+
+.report-page:nth-of-type(4) .intro-text {
+  margin-bottom: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.68rem;
+}
+
+.report-page:nth-of-type(4) .section-block {
+  margin-bottom: 0.25rem;
+}
+
+.report-page:nth-of-type(4) .result-subtitle {
+  margin: 0.25rem 0 0.2rem;
+  font-size: 0.76rem;
+}
+
+.report-page:nth-of-type(4) .results-table2 {
+  margin: 0.15rem 0 0.3rem;
+  font-size: 0.76rem;
+}
+
+.report-page:nth-of-type(4) .results-table2 thead th {
+  padding: 4px 4px;
+  font-size: 0.73rem;
+}
+
+.report-page:nth-of-type(4) .results-table2 tbody td {
+  padding: 5px 6px;
+  font-size: 0.76rem;
+}
+
+.report-page:nth-of-type(4) .status-badge {
+  font-size: 0.74rem;
+  padding: 0.35rem 0.9rem;
+}
+
+.report-page:nth-of-type(4) .observations-box {
+  padding: 0.6rem 0.8rem;
+  font-size: 0.72rem;
+  min-height: 2.2cm;
+}
+
+/* =========================================
+   OPTIMIZACIÓN PARA TABLAS CUALITATIVAS
+   ========================================= */
+
+/* Más espacio vertical en tablas cualitativas */
+.report-page:nth-of-type(4) .results-table2 tbody td {
+  padding: 6px 8px;
+  vertical-align: middle;
+}
+
+/* Alinear correctamente los badges */
+.report-page:nth-of-type(4) .results-table2 tbody td:last-child {
+  text-align: center;
+}
+
+/* Primera columna más ancha en tablas cualitativas */
+.report-page:nth-of-type(4) .results-table2 tbody td:first-child {
+  width: 40%;
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.report-page:nth-of-type(4) .results-table2 tbody td:last-child {
+  width: 60%;
+}
+
+/* =========================================
+   IMPRESIÓN
+   ========================================= */
+@media print {
+  .report-page {
+    width: 21.59cm !important;
+    height: 27.94cm !important;
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  .report-page .watermark-bg {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 27.94cm !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+
+  .report-page .content {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Forzar colores exactos */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .results-table2 thead th {
+    background-color: rgba(147, 197, 253, 0.95) !important;
+    color: #0f172a !important;
+  }
+
+  .results-table2 tfoot td {
+    background-color: rgba(191, 219, 254, 0.7) !important;
+  }
+
+  .status-ok {
+    background-color: rgba(191, 219, 254, 0.95) !important;
+    color: #1e3a8a !important;
+    border: 1.5px solid #3b82f6 !important;
+  }
+
+  .status-error {
+    background-color: rgba(254, 226, 226, 0.95) !important;
+    color: #991b1b !important;
+    border: 1.5px solid #ef4444 !important;
+  }
+
+  .section-block {
+    page-break-inside: avoid;
+  }
+
+  .results-table2 {
+    page-break-inside: auto;
+  }
+
+  .results-table2 tbody tr {
+    page-break-inside: avoid;
+  }
+}
+
+/* =========================================
+   RESPONSIVE (SOLO PANTALLA)
+   ========================================= */
+@media screen and (max-width: 768px) {
+  .report-page .content {
+    padding: 1cm !important;
+  }
+
+  .main-title-results {
+    font-size: 0.95rem;
+  }
+
+  .result-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .results-table2 {
+    font-size: 0.7rem;
+  }
+
+  .status-badge {
+    font-size: 0.68rem;
+    padding: 0.25rem 0.6rem;
+    min-width: 80px;
+  }
+}
+
+/* =========================================
+   MEJORAS VISUALES ADICIONALES
+   ========================================= */
+
+/* Hover en tablas (solo pantalla) */
+@media screen {
+  .results-table2 tbody tr:hover td {
+    background-color: rgba(219, 234, 254, 0.3) !important;
+    transition: background-color 0.2s ease;
+  }
+}
+
+/* Sombra en badges para mejor legibilidad */
+.status-badge {
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Espaciado adicional antes de observaciones */
+.observations-box {
+  margin-top: 0.5rem;
+}
